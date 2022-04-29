@@ -1,13 +1,12 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using CGE.Core.DTO;
+using CGE.Core.Enums;
+using System;
 
 namespace CGE.Core.Models
 {
-    [Table("Suppliers")]
-    public class Supplier
+    public class SupplierPJDTO : ISupplierDTO
     {
-        public int Id { get; set; }        
+        public int Id { get; set; }
         public string CPFCNPJ { get; set; }
         public string RazaoSocial { get; set; }
         public int TipoPessoa { get; set; }
@@ -18,15 +17,11 @@ namespace CGE.Core.Models
         public string Email { get; set; }
         public int Nacional { get; set; }
         public int Situacao { get; set; }
-
-        [DataType(DataType.Date)]
         public DateTime DtAtualizacao { get; set; }        
 
         #region Atributos Pessoa Juridica
         
-        public string NomeFantasia { get; set; }
-
-        [DataType(DataType.Date)]
+        public string NomeFantasia { get; set; }               
         public Nullable<DateTime> DtConstituicao { get; set; }
         public Nullable<int> Porte { get; set; }
         public string WebSite { get; set; }
@@ -37,16 +32,9 @@ namespace CGE.Core.Models
 
         #endregion
 
-        #region Atributos Pessoa Física
-
-        public Nullable<int> EstadoCivil { get; set; }
-        public string Profissao { get; set; }
-
-        [DataType(DataType.Date)]
-        public Nullable<DateTime> DtNascimento { get; set; }
-        public Nullable<int> Genero { get; set; }
-        public string Nacionalidade { get; set; }
-
-        #endregion
+        public SupplierPJDTO()
+        {
+            TipoPessoa = (int)SupplierSituation.EmElaboracao;
+        }
     }
 }

@@ -1,15 +1,13 @@
-﻿using CGE.Api.Models;
+﻿using CGE.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace CGE.Api
+namespace CGE.Core
 {
     public class CGEContext : DbContext
     {        
         public CGEContext(DbContextOptions<CGEContext> opt) : base(opt)
-        {
-            // Iniciar Dados
-            SeedData();
+        {            
         }
 
         public DbSet<Supplier> Suppliers { set; get; }
@@ -18,12 +16,11 @@ namespace CGE.Api
         {
             #region ADDING PJ
                        
-            Suppliers.Add(new Supplier() { TipoPessoa = 1, Nacional = 1, DtAtualizacao = DateTime.Now, Situacao = 0, CPFCNPJ = "01571702000198", RazaoSocial ="HALEX ISTAR IND FARMACEUTICA LTDA", TipoEmpresa = 1, Porte = 5, Fone1 = "5133663806", Email = "HALEXFARMACO@HALEX.COM.BR", CapitalSocial = 105000000});
-            Suppliers.Add(new Supplier() { TipoPessoa = 1, Nacional = 1, DtAtualizacao = DateTime.Now, Situacao = 0, CPFCNPJ = "01571702000198", RazaoSocial = "HALEX ISTAR IND FARMACEUTICA LTDA", TipoEmpresa = 1, Porte = 5, Fone1 = "5133663806", Email = "HALEXFARMACO@HALEX.COM.BR", CapitalSocial = 105000000 });
-            Suppliers.Add(new Supplier() { TipoPessoa = 1, Nacional = 1, DtAtualizacao = DateTime.Now, Situacao = 0, CPFCNPJ = "01571702000198", RazaoSocial = "HALEX ISTAR IND FARMACEUTICA LTDA", TipoEmpresa = 1, Porte = 5, Fone1 = "5133663806", Email = "HALEXFARMACO@HALEX.COM.BR", CapitalSocial = 105000000 });
-            Suppliers.Add(new Supplier() { TipoPessoa = 1, Nacional = 1, DtAtualizacao = DateTime.Now, Situacao = 0, CPFCNPJ = "01571702000198", RazaoSocial = "HALEX ISTAR IND FARMACEUTICA LTDA", TipoEmpresa = 1, Porte = 5, Fone1 = "5133663806", Email = "HALEXFARMACO@HALEX.COM.BR", CapitalSocial = 105000000 });
-            Suppliers.Add(new Supplier() { TipoPessoa = 1, Nacional = 1, DtAtualizacao = DateTime.Now, Situacao = 0, CPFCNPJ = "01571702000198", RazaoSocial = "HALEX ISTAR IND FARMACEUTICA LTDA", TipoEmpresa = 1, Porte = 5, Fone1 = "5133663806", Email = "HALEXFARMACO@HALEX.COM.BR", CapitalSocial = 105000000 });
-            Suppliers.Add(new Supplier() { TipoPessoa = 1, Nacional = 1, DtAtualizacao = DateTime.Now, Situacao = 0, CPFCNPJ = "01571702000198", RazaoSocial = "HALEX ISTAR IND FARMACEUTICA LTDA", TipoEmpresa = 1, Porte = 5, Fone1 = "5133663806", Email = "HALEXFARMACO@HALEX.COM.BR", CapitalSocial = 105000000 });
+            Suppliers.Add(new Supplier() { TipoPessoa = 1, Nacional = 1, DtAtualizacao = DateTime.Now, Situacao = 0, CPFCNPJ = "01571702000198", RazaoSocial ="HALEX ISTAR IND FARMACEUTICA LTDA",  TipoEmpresa = 1, Porte = 5, Fone1 = "5133663806", Email = "HALEXFARMACO@HALEX.COM.BR", CapitalSocial = 20000000});
+            Suppliers.Add(new Supplier() { TipoPessoa = 1, Nacional = 1, DtAtualizacao = DateTime.Now, Situacao = 0, CPFCNPJ = "17162579000191", RazaoSocial = "LIDER TAXI AEREO S/A AIR BRASIL",   TipoEmpresa = 1, Porte = 5, Fone1 = "5133663806", Email = "CONTATO@LIDERTAXI.COM.BR", CapitalSocial = 5000000 });
+            Suppliers.Add(new Supplier() { TipoPessoa = 1, Nacional = 1, DtAtualizacao = DateTime.Now, Situacao = 0, CPFCNPJ = "28672087000162", RazaoSocial = "SAINT GOBAIN CANALIZAÇÃO LTDA",     TipoEmpresa = 1, Porte = 5, Fone1 = "5133663806", Email = "CONTATO@SAINTGOBAIN.COM.BR", CapitalSocial = 10000100 });
+            Suppliers.Add(new Supplier() { TipoPessoa = 1, Nacional = 1, DtAtualizacao = DateTime.Now, Situacao = 0, CPFCNPJ = "33113309000147", RazaoSocial = "VALID SOLUÇÕES SERVIÇOS DE SEGURANÇA EM MEIOS", TipoEmpresa = 1, Porte = 5, Fone1 = "5133663806", Email = "VALIDSOLUCOESSEGURANCA@VALIDSOLUÇÕES.COM.BR", CapitalSocial = 85000500 });
+            Suppliers.Add(new Supplier() { TipoPessoa = 1, Nacional = 1, DtAtualizacao = DateTime.Now, Situacao = 0, CPFCNPJ = "33131079000149", RazaoSocial = "CARL ZEISS DO BRASIL LTDA",         TipoEmpresa = 1, Porte = 5, Fone1 = "5133663806", Email = "CONTATO@CARLZEISS.COM.BR", CapitalSocial = 320000100 });            
 
             #endregion
 
@@ -37,10 +34,11 @@ namespace CGE.Api
             Suppliers.Add(new Supplier() { TipoPessoa = 0, Nacional = 1, DtAtualizacao = DateTime.Now, Situacao = 0, CPFCNPJ = "28866991015", RazaoSocial = "CLEICE AMABILE LEVY ZAGO", TipoEmpresa = 1, Porte = 5, Fone1 = "5133663806", Email = "CLEICEZAGO@GMAIL.COM", Profissao = "NÃO INFORMADO", DtNascimento = DateTime.Now.AddYears(-21).AddMonths(-9), Genero = 0, });
             Suppliers.Add(new Supplier() { TipoPessoa = 0, Nacional = 1, DtAtualizacao = DateTime.Now, Situacao = 0, CPFCNPJ = "93233728034", RazaoSocial = "MONICA CRISTIANE RINCK", TipoEmpresa = 1, Porte = 5, Fone1 = "5133663806", Email = "MONICACRIS88@GMAIL.COM", Profissao = "NÃO INFORMADO", DtNascimento = DateTime.Now.AddYears(-24).AddMonths(-1), Genero = 0, });
             Suppliers.Add(new Supplier() { TipoPessoa = 0, Nacional = 1, DtAtualizacao = DateTime.Now, Situacao = 0, CPFCNPJ = "78508614004", RazaoSocial = "ALVARO MARQUES TEIXEIRA", TipoEmpresa = 1, Porte = 5, Fone1 = "5133663806", Email = "ALVAROM@GMAIL.COM", Profissao = "NÃO INFORMADO", DtNascimento = DateTime.Now.AddYears(-18).AddMonths(-2), Genero = 1, });
-           
+
             #endregion
 
-        }
+            SaveChanges();
+        }        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -57,42 +55,42 @@ namespace CGE.Api
                a.Property(x => x.Fone1).HasMaxLength(15).IsRequired();
                a.Property(x => x.Email).HasMaxLength(100).IsRequired();
 
-               a.Property(x => x.NomeFantasia).HasMaxLength(100);
-               a.Property(x => x.Fone2).HasMaxLength(15);
-               a.Property(x => x.Fone3).HasMaxLength(15);
-               a.Property(x => x.WebSite).HasMaxLength(100);
-               a.Property(x => x.Profissao).HasMaxLength(100);
+               a.Property(x => x.DtAtualizacao).HasColumnType<DateTime>("datetime").IsRequired();
+
+               // * Nuable Fields
+
+               a.Property(x => x.NomeFantasia).HasMaxLength(100); 
+               a.Property(x => x.Fone2).HasMaxLength(15); 
+               a.Property(x => x.Fone3).HasMaxLength(15); 
+               a.Property(x => x.WebSite).HasMaxLength(100); 
+               a.Property(x => x.Profissao).HasMaxLength(100); 
                a.Property(x => x.Nacionalidade).HasMaxLength(100);
+
+               //a.Property(x => x.DtConstituicao).HasColumnType<DateTime?>("datetime"); 
+               //a.Property(x => x.DtNascimento).HasColumnType<DateTime?>("datetime"); 
+
 
                a.Property(p => p.QtdQuota)
                 //.HasColumnName("val_tensaobaseft")
-                .HasColumnType<decimal>("numeric");
+                .HasColumnType<decimal?>("numeric(18,2)");
 
                a.Property(p => p.VlrQuota)
                 //.HasColumnName("val_tensaobaseft")
-                .HasColumnType<decimal>("numeric");
+                .HasColumnType<decimal?>("numeric(18,2)");
 
                a.Property(p => p.CapitalSocial)
                 //.HasColumnName("val_tensaobaseft")
-                .HasColumnType<decimal>("numeric");
+                .HasColumnType<decimal?>("numeric(18,2)");
 
-           });               
-                
+               //a.Property(x => x.EstadoCivil).HasColumnType("int");
+               //a.Property(x => x.Genero).HasColumnType("int");
 
-            //modelBuilder.Entity<Produto>()
-            //    .Property(x => x.Preco).HasColumnType<decimal>("numeric").HasPrecision(18);
+               a.Property(x => x.Profissao).HasMaxLength(100);
+               a.Property(x => x.Nacionalidade).HasMaxLength(100); 
+           });
 
-            //modelBuilder.Entity<Produto>().ToTable("Produtos");
-            //modelBuilder.Entity<Categoria>().ToTable("Categorias");
-
-
-            //modelBuilder.Entity<Empregado>().
-            //        Property(x => x.Id).IsRequired();
-            //modelBuilder.Entity<Empregado>().
-            //        Property(x => x.Nome).IsRequired().HasMaxLength(100);
-
-
-            //base.OnModelCreating(modelBuilder);
+            modelBuilder.Seed();    // Dados Iniciais 
+            
             base.OnModelCreating(modelBuilder);
         }
     }
