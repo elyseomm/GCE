@@ -1,8 +1,7 @@
-﻿using CGE.Core.DTO;
-using CGE.Core.Enums;
+﻿using CGE.Core.Enums;
 using System;
 
-namespace CGE.Core.Models
+namespace CGE.Core.DTO
 {
     public class SupplierPFDTO : ISupplierDTO
     {

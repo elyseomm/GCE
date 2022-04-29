@@ -2,7 +2,7 @@
 
 namespace CGE.Core.DTO
 {
-    interface ISupplierDTO
+    public interface ISupplierDTO
     {
         int Id { get; set; }
         string CPFCNPJ { get; set; }

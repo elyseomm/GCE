@@ -1,7 +1,6 @@
-﻿using CGE.Core.DTO;
-using System;
+﻿using System;
 
-namespace CGE.Core.Models
+namespace CGE.Core.DTO
 {
     public class SupplierDTO : ISupplierDTO
     {

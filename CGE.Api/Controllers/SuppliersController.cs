@@ -1,12 +1,11 @@
 ﻿using CGE.Core;
-using CGE.Core.Enums;
+using CGE.Core.DTO;
 using CGE.Core.Models;
 using CGE.Core.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace CGE.Api.Controllers
 {

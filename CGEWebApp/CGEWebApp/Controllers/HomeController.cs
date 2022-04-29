@@ -10,16 +10,10 @@ namespace CGEWebApp.Controllers
     {
         public ActionResult Index()
         {
+            @ViewBag.Title = "Sistema v1.0";
             return View();
         }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
+                
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
