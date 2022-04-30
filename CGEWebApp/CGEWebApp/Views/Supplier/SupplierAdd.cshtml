@@ -1,0 +1,72 @@
+﻿<!-- Modal de Cadastro -->
+<div class="modal fade" id="frm-add" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title"><b>Fornecedor Pessoa Jurídica</b></h5>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-8">
+                    <div class="btn-group" style="align-content: end">
+                        <button class="button" id="btnIncluir">Incluir</button>
+                        <button class="button" id="btnAbrir">Abrir</button>
+                        <button class="button">Excluir</button>
+                        <button class="button">Ativar</button>
+                        <button class="button">Desativar</button>
+                        <button class="button">Voltar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <form id="frm-edit-pj">
+
+                    <input type="hidden" id="id-supp" name="id-supp" />
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Tipo de Pessoa:</label>
+                            <input id="tipoPessoa" name="tipoPessoa" class="form-control" />
+
+                            <label>Nacional:</label>
+                            <input id="nacional" name="nacional" class="form-control" />
+
+                            <label>Dt. Últ. Atualização:</label>
+                            <input id="dtatualizacao" name="dtatualizacao" class="form-control" />
+
+                            <label>Situação:</label>
+                            <input id="situacao" name="situacao" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <h3 class="modal-header"><b>Degtalhes</b></h3>
+                        <div class="col-md-12">
+                            <label>CNPJ:</label>
+                            <input id="cpfcnpj" name="cpfcnpj" class="form-control" />
+
+                            <label>RazaoSocial:</label>
+                            <input id="razaosocial" name="razaosocial" class="form-control" />
+                            
+                            <label>Nome Fantasia:</label>
+                            <input id="nomefantasia" name="nomefantasia" class="form-control" />
+
+                            <label>Tipo de Empresa:</label>
+                            <input id="tipoempresa" name="tipoempresa" class="form-control" />
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button id="btn-save" type="button" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+
+        </div>
+    </div>
+</div>

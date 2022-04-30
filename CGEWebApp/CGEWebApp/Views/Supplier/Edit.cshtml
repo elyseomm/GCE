@@ -1,0 +1,98 @@
+﻿<script src="~/Content/App/appBase.js"></script>
+<script src="~/Content/App/ProjectControl/edit.js"></script>
+<link href="~/Content/App/stylesBase.css" rel="stylesheet" />
+@model FocusBrazilSFC.Core.ProjectConfig
+@{
+    ViewBag.Title = TempData["title"];
+}
+
+<h2>@ViewBag.Title</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+<div class="form-horizontal">
+
+    @Html.HiddenFor(model => model.ID_PROJECT)
+    @Html.HiddenFor(model => model.ID_USER_CREATE)
+    @Html.HiddenFor(model => model.HASH)
+    @Html.HiddenFor(model => model.NAME)
+
+    <input type="hidden" id="paramID" value="@Model.ID" />
+    <br />
+    <br />
+    <br />
+    <div class="row" style="margin: 5px 0 2rem 0; display:flex">
+
+        <div class="col">
+            <div class="input-group">
+                <span class="input-group-addon"
+                      style="font-size: 10pt;
+                            width: 85px;">
+                    Project:
+                </span>
+                <span class="input-sm"
+                      style="font-size: 15pt;
+                                width: 85px;">
+                    @Model.Project.PROJECT_CODE
+                </span>
+            </div>
+
+        </div>
+
+        <div class="col" style="margin-left: 10px">
+            <div class="input-group">
+                <span class="input-group-addon"
+                      style="font-size: 9pt;
+                            width: 85px;">
+                    Param Name:
+                </span>
+                <span class="input-sm"
+                      style="font-size: 15pt;
+                                width: 85px;">
+                    @Model.NAME
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-sm-4">
+            <label for="recipient-name" class="col-form-label">Param Value:</label>
+            <input type="text" class="form-control" id="VALUE" name="VALUE" value="@Model.VALUE">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-sm-4">
+            <label for="recipient-name" class="col-form-label">Hash:</label>
+            <input type="text" class="form-control" id="HASH" name="HASH" value="@Model.HASH">
+        </div>
+    </div>
+    @{ 
+        var ischecked = Model.ACTIVE == 1 ? " checked='checked' " : "";
+    }
+    <div class="row">        
+        <div class="form-group col-sm-1">
+            <label for="recipient-name" class="col-form-label">Active:</label>
+            <input type="checkbox" class="form-control" id="ACTIVE" name="ACTIVE" value="@Model.ACTIVE" @ischecked>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="form-group col-md-2">
+            <input type="submit" value="Update" class="btn btn-success btn-lg btn-block" style="margin-top: 25px !important; padding: 5px !important; margin-left: 14px !important;" />
+        </div>
+    </div>
+
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<style>
+    input {
+        text-transform: none;
+    }
+</style>

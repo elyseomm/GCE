@@ -2,7 +2,7 @@
 Sistema de Gestão de Compras
 
 ## Pré-requisitos Ambiente Dev:
-- Instalar o Viusual Studio 2019 no mínimo.
+- Instalar o Visual Studio 2019 no mínimo.
 - Baixar o projéto no github: https://github.com/elyseomm/GCE.git
 
 - Instancia do SQL Server(versão 16 de preferência).

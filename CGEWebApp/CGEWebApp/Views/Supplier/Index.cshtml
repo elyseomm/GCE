@@ -1,0 +1,141 @@
+<script src="~/Content/SupplierControl/index.js"></script>
+@model IEnumerable<WebCore.DTO.SupplierDTO>
+@{
+    ViewBag.Title = "Listagem de Fornecedores";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="row">
+    <div class="col-md-4">        
+    </div>    
+    <div class="col-md-8">
+        <div class="btn-group" style="align-content: end">
+            <button class="button" id="btnIncluir">Incluir</button>
+            <button class="button" id="btnAbrir">Abrir</button>
+            <button class="button">Excluir</button>
+            <button class="button">Ativar</button>
+            <button class="button">Desativar</button>
+            <button class="button">Voltar</button>
+        </div>
+    </div>
+</div>
+<p style="clear:both">
+    <hr />
+    <form>
+        <table class="table" id="suppliers">
+            <tr style="background: #EBEBEB">
+                <th>#</th>
+                <th>@Html.Raw("Tipo Pessoa")</th>
+                <th>@Html.Raw("Nacional")</th>
+                <th>@Html.Raw("CPF/CNPJ")</th>
+                <th>@Html.Raw("Nome/Razão Social")</th>
+                <th>@Html.Raw("Porte")</th>
+                <th>@Html.Raw("Situacao")</th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                //var status = item.ACTIVE == 1 ? "Yes" : "No";
+                //var classStatus = item.ACTIVE == 1 ? "label label-success" : "label label-danger";
+                //var strProject = item.Project != null ? item.Project.PROJECT_CODE : "";
+            <tr>            
+                <td>@item.Id</td>
+                <td>
+                    @Html.DisplayTextFor(m => item.GetTipoPessoa)
+                </td>
+                <td>
+                    @Html.DisplayTextFor(m => item.GetNacional)
+                </td>
+                <td>
+                    @Html.DisplayTextFor(m => item.CPFCNPJ)
+                </td>
+                <td>
+                    @Html.DisplayTextFor(m => item.RazaoSocial)
+                </td>
+                <td>
+                    @Html.DisplayTextFor(m => item.GetPorte)
+                </td>
+                <td>
+                    @Html.DisplayTextFor(m => item.GetSituacao)
+                </td>
+                <td class="text-center" style="width: 210px">
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary btn-xs btn-style" })&nbsp;
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-default btn-xs btn-style" })&nbsp;
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-xs btn-style" })
+                </td>
+            </tr>
+            }
+
+        </table>
+    </form>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        </ul>
+    </nav>
+
+    <style>
+        /**Cor quando selecionado**/
+        #suppliers tr.selecionado td {
+            background-color: #bdefed;
+        }
+
+        .btn-group .button {
+            background-color: #00577d; /* Green */
+            border: none;
+            border-radius: 8px;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            cursor: pointer;
+            float: left;
+        }
+
+            .btn-group .button:hover {
+                background-color: #0e3867;
+            }
+
+        .card-body {
+            margin-left: 30px;
+        }
+
+        th, td {
+            border-bottom: 1px solid #ddd;
+        }
+
+        #suppliers {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #customers td, #customers th {
+            border: 1px solid #ddd;
+            padding: 8px;
+            cursor: pointer; /**importante para não mostrar cursor de texto**/
+        }
+
+        #suppliers tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #suppliers tr:hover {
+            background-color: #ddd;
+        }
+
+        #suppliers th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #00577d;
+            color: white;
+        }
+    </style>
