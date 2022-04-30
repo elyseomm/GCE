@@ -14,6 +14,13 @@ $(document).ready(() => {
 		alert('Load Modal Edit ' + id);
 	})
 
+	$("td").on("dblclick", function () {
+		//var currTable = $(this).closest("table").attr("id"),
+		//	destinationTable = (currTable.match(/1/)) ? "#table_2" : "#table_1";
+		//$(destinationTable).append($(this).parent());
+		alert('Load Modal Edit ' + id);
+	});
+
 	$("#suppliers tr").click(function (event) {
 		var cell = this.getElementsByTagName("td")[0];
 		id = cell.innerText		

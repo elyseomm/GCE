@@ -1,28 +1,41 @@
 <script src="~/Content/SupplierControl/index.js"></script>
-@model IEnumerable<WebCore.DTO.SupplierDTO>
+@using PagedList.Mvc;
+@model PagedList.IPagedList<WebCore.DTO.SupplierDTO>
 @{
     ViewBag.Title = "Listagem de Fornecedores";
-}
 
-<h2>@ViewBag.Title</h2>
-
-<div class="row">
-    <div class="col-md-4">        
-    </div>    
-    <div class="col-md-8">
-        <div class="btn-group" style="align-content: end">
-            <button class="button" id="btnIncluir">Incluir</button>
-            <button class="button" id="btnAbrir">Abrir</button>
-            <button class="button">Excluir</button>
-            <button class="button">Ativar</button>
-            <button class="button">Desativar</button>
-            <button class="button">Voltar</button>
+    if (ViewBag.Erro != "")
+    {
+        <div class="body-content">
+            <div class="alert alert-danger">
+                <div class='row'>
+                    <div class='col-md-12 text-danger' style="text-align: center">
+                        <h1><strong>Erro!</strong></h1>
+                        <h2>@ViewBag.Erro</h2>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-<p style="clear:both">
-    <hr />
-    <form>
+
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-5"><h2>@ViewBag.Title</h2></div>
+            <div class="col-md-7" style="margin-top: 12px">
+                <div class="btn-group">
+                    <button class="button" id="btnIncluir">Incluir</button>
+                    <button class="button" id="btnAbrir">Abrir</button>
+                    <button class="button" id="btnExcluir">Excluir</button>
+                    <button class="button" id="btnAtivar">Ativar</button>
+                    <button class="button" id="btnDesativar">Desativar</button>
+                    <button class="button" id="btnVoltar">Voltar</button>
+                </div>
+            </div>
+        </div>
+
+        <hr />
+
         <table class="table" id="suppliers">
             <tr style="background: #EBEBEB">
                 <th>#</th>
@@ -39,51 +52,65 @@
                 //var status = item.ACTIVE == 1 ? "Yes" : "No";
                 //var classStatus = item.ACTIVE == 1 ? "label label-success" : "label label-danger";
                 //var strProject = item.Project != null ? item.Project.PROJECT_CODE : "";
-            <tr>            
-                <td>@item.Id</td>
-                <td>
-                    @Html.DisplayTextFor(m => item.GetTipoPessoa)
-                </td>
-                <td>
-                    @Html.DisplayTextFor(m => item.GetNacional)
-                </td>
-                <td>
-                    @Html.DisplayTextFor(m => item.CPFCNPJ)
-                </td>
-                <td>
-                    @Html.DisplayTextFor(m => item.RazaoSocial)
-                </td>
-                <td>
-                    @Html.DisplayTextFor(m => item.GetPorte)
-                </td>
-                <td>
-                    @Html.DisplayTextFor(m => item.GetSituacao)
-                </td>
-                <td class="text-center" style="width: 210px">
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary btn-xs btn-style" })&nbsp;
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-default btn-xs btn-style" })&nbsp;
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-xs btn-style" })
-                </td>
-            </tr>
+                <tr>
+                    <td>@item.Id</td>
+                    <td>
+                        @Html.DisplayTextFor(m => item.GetTipoPessoa)
+                    </td>
+                    <td>
+                        @Html.DisplayTextFor(m => item.GetNacional)
+                    </td>
+                    <td>
+                        @Html.DisplayTextFor(m => item.CPFCNPJ)
+                    </td>
+                    <td>
+                        @Html.DisplayTextFor(m => item.RazaoSocial)
+                    </td>
+                    <td>
+                        @Html.DisplayTextFor(m => item.GetPorte)
+                    </td>
+                    <td>
+                        @Html.DisplayTextFor(m => item.GetSituacao)
+                    </td>
+                    @*<td class="text-center" style="width: 210px">
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary btn-xs btn-style" })&nbsp;
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-default btn-xs btn-style" })&nbsp;
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-xs btn-style" })
+                    </td>*@
+                </tr>
             }
-
         </table>
-    </form>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-        </ul>
-    </nav>
 
-    <style>
-        /**Cor quando selecionado**/
-        #suppliers tr.selecionado td {
-            background-color: #bdefed;
-        }
+        @*<nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+            </nav>*@
+    }
+}
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page}) )
+
+@*@Html.PagedListPager(Model, page => Url.Action("Index", new { @ViewBag.workOrder, page, @ViewBag.filter }))*@
+@*@Html.Partial(@"~/Views/Supplier/SupplierEdir.cshtml")*@
+
+<style>
+    /**Cor quando selecionado**/
+    #suppliers tr.selecionado td {
+        background-color: #bdefed;
+    }
+
+    .btn-group {
+        /*background-color: darkred;*/ /* Green */
+        width: 100%;
+        padding-left: 50px;
+    }
 
         .btn-group .button {
             background-color: #00577d; /* Green */
@@ -103,39 +130,39 @@
                 background-color: #0e3867;
             }
 
-        .card-body {
-            margin-left: 30px;
-        }
+    .card-body {
+        margin-left: 30px;
+    }
 
-        th, td {
-            border-bottom: 1px solid #ddd;
-        }
+    th, td {
+        border-bottom: 1px solid #ddd;
+    }
 
-        #suppliers {
-            font-family: Arial, Helvetica, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-        }
+    #suppliers {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
 
-        #customers td, #customers th {
-            border: 1px solid #ddd;
-            padding: 8px;
-            cursor: pointer; /**importante para não mostrar cursor de texto**/
-        }
+    #customers td, #customers th {
+        border: 1px solid #ddd;
+        padding: 8px;
+        cursor: pointer; /**importante para não mostrar cursor de texto**/
+    }
 
-        #suppliers tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
+    #suppliers tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
 
-        #suppliers tr:hover {
-            background-color: #ddd;
-        }
+    #suppliers tr:hover {
+        background-color: #ddd;
+    }
 
-        #suppliers th {
-            padding-top: 12px;
-            padding-bottom: 12px;
-            text-align: left;
-            background-color: #00577d;
-            color: white;
-        }
-    </style>
+    #suppliers th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #00577d;
+        color: white;
+    }
+</style>

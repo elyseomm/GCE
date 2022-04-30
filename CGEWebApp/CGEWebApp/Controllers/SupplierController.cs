@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Data.Objects;
 using System.Linq;
@@ -26,11 +27,21 @@ namespace CGEWebApp.Controllers
         }
 
         // GET: Supplier
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
-            _service = GetService();
-            var rows = _service.GetAll().Result;
-            return View(rows);
+            try
+            {
+                @ViewBag.Erro = string.Empty;
+                _service = GetService();
+                var rows = _service.GetAll().Result;
+                var pagedRows = rows.OrderByDescending(a => a.TipoPessoa).ToPagedList(page, 50);
+                return View(pagedRows);
+            }
+            catch (Exception ex)
+            {
+                @ViewBag.Erro = ex.Message;
+            }
+            return View();
         }
 
         // GET: Supplier/Details/5

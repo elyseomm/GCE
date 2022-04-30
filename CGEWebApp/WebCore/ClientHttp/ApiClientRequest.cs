@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.NetworkInformation;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace WebCore.ClientHttp
@@ -8,16 +11,27 @@ namespace WebCore.ClientHttp
     public class ApiClientRequest
     {
         private Uri _url = null;
-        private string _urlApi = string.Empty;        
+        private string _urlApi = string.Empty;
+        private string _pingRoute = string.Empty;
         private Dictionary<string, string> _headers { get; set; }
         private Dictionary<string, string> _values { get; set; }
 
         private const int TIMEOUT_MINUTES = 5;
+        // * PING
+        private string PING_SERVER = string.Empty;
+
+        public Task<bool> OnLine => IsServerAlive();
 
         public ApiClientRequest()
         {
             this._urlApi = Utils.Get("ApiUrl").ToString();
-            InitializeApiClientRequest(this._urlApi);            
+            this._pingRoute = Utils.Get("Ping");
+
+            // * Verifica se o servidor da API está ativo.
+            if (!OnLine.Result)
+                throw new Exception("O Servidor RestAPI(CGE.Api) está Off-Line!");
+
+            InitializeApiClientRequest(this._urlApi);
         }
                
         private void InitializeApiClientRequest(string url)
@@ -26,7 +40,21 @@ namespace WebCore.ClientHttp
             _headers = new Dictionary<string, string>();
             _values = new Dictionary<string, string>();            
         }
-        
+
+        private async Task<bool> IsServerAlive()
+        {
+            try
+            {
+                var ping = await DoGet(this._pingRoute);                
+                if (ping.IsNotNull())
+                    return ping.Contains("Pong!");
+            }
+            catch(Exception ex) 
+            {
+                var erro = ex.Message;
+            }
+            return false;
+        }
 
         #region Headers
 
@@ -95,7 +123,7 @@ namespace WebCore.ClientHttp
         {
             try
             {
-                var content = new FormUrlEncodedContent(_values);
+                //var content = new FormUrlEncodedContent(_values);
                 
                 if (routeUrl.IsNotNull())
                 {

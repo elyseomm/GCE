@@ -1,12 +1,13 @@
 ﻿body {
     padding-top: 50px;
-    padding-bottom: 20px;
+    /*padding-bottom: 20px;*/
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    min-height: calc(100vh - 130px); /* 70 footer + 50 header + 20 header margin botoom*/
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -21,4 +22,35 @@ input,
 select,
 textarea {
     max-width: 280px;
+    text-transform: uppercase;
+}
+
+#frm-login input {
+    text-transform: unset;
+}
+
+.table-fixed thead {
+    width: 97%;
+}
+
+.table-fixed tbody {
+    height: 100px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
+    display: block;
+}
+
+.table-fixed tbody td, .table-fixed thead > tr > th {
+    float: left;
+    border-bottom-width: 0;
+}
+
+/* css botoes */
+
+.btn-supplier {
+    border-radius: 8px;
+    background-color: #00577d;
 }

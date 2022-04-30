@@ -22,11 +22,12 @@ namespace CGE.Api.Controllers
             _repo = new SupplierRepository(logger, db);
         }
 
+        [HttpGet]
+        [Route("ping")]
+        public ObjectResult Ping() => new ObjectResult("Pong!");
+
         [HttpGet]        
-        public IEnumerable<Supplier> Get()
-        {            
-            return _repo.GetAll();
-        }
+        public IEnumerable<Supplier> Get() => _repo.GetAll();
 
         [HttpGet]
         [Route("{id}")]

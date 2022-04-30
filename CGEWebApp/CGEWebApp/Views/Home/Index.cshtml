@@ -1,17 +1,77 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+<div style="margin-top:50px"></div>
 
 <div class="jumbotron">
     <h1>CGE Supplier Application</h1>
-    <p class="lead">CGE Supplier Application - Listagem de Fornecedores. Just like a test&raquo;</a></p>
+    <p class="lead">CGE Supplier Application - Listagem de Fornecedores. Teste</p>
 </div>
 
 <div class="row">
-    <div class="col-md-4">
-    </div>
-    <div class="col-md-4">        
-    </div>
-    <div class="col-md-4">        
+    <div class="col-md-4"></div>    
+    <div id="btn-supplier" class="col-sm-4">
+        <p><a class="btn btn-success btn-lg btn-block" href="/Supplier">Listagem de Fornecedores</a></p>
     </div>
 </div>
+        
+<div style="margin-top:50px"></div>
+
+@*<div class="row">
+    <div class="col-md-12"></div>    
+</div>*@
+
+<script type="text/javascript">
+    var changed;
+
+    //$(document).ready($(function () {
+
+    //    $("#modal-user").on("shown.bs.modal", function () {
+    //        $("#close").text("Cancel");
+    //        $("#message_error").text("");
+    //        $("#PASS_USER").focus();
+    //        changed = false;
+    //    });
+    //    $("#btn-close").click(function () {
+    //        $("#modal-user").modal("hide");
+    //    });
+    //    $("#btn-save").click(function () {
+    //        saveProfile();
+    //    });
+    //}));
+
+    //$('#modal-user').on('hidden.bs.modal', function () {
+    //    if (changed) {
+    //        location.reload();
+    //    }
+    //})
+
+    /// LISTAGEM FORNECEDORES
+    $(document).ready($(function () {
+
+        $("#frm-supplier").on('click', () => {
+
+        })
+
+    }
+    /// EDIT SUPPLIER
+    
+    $(document).ready($(function () {
+
+        $("#modal-supplier-edit").on("shown.bs.modal", function () {
+            $("#close").text("Cancel");
+
+            $("#mdl-title").text("Fornecedor Pessoa");
+
+            $("#PASS_USER").focus();
+            changed = false;
+        });
+        $("#btn-close").click(function () {
+            $("#modal-user").modal("hide");
+        });
+        $("#btn-save").click(function () {
+            saveProfile();
+        });
+    }));
+
+</script>

@@ -12,6 +12,8 @@ namespace WebCore.Services
     {
         private ApiClientRequest _client = null;
 
+        // * PING
+        private string PING_SERVER = string.Empty;
         // * LISTAR
         private string GET_ALL_SUPPLIERS = string.Empty;
         private string GET_SUPPLIER = string.Empty;
@@ -26,7 +28,7 @@ namespace WebCore.Services
         private string PATCH_SUPPLIER_DEACTIVATE = string.Empty;
         // * DELETAR
         private string DELETE_SUPPLIER = string.Empty;
-
+        
         public SupplierService()
         {
             _client = new ApiClientRequest();
@@ -37,6 +39,8 @@ namespace WebCore.Services
 
         private void FillInSupplierApiRoutes()
         {
+            PING_SERVER = Utils.Get("Ping");
+
             GET_ALL_SUPPLIERS = Utils.Get("SupplierList");
             GET_SUPPLIER = Utils.Get("Supplier");
 
