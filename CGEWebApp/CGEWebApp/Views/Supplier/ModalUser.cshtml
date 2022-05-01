@@ -1,0 +1,111 @@
+﻿
+
+<div class="modal fade" id="modal-user" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <input id="idUser" name="idUser" value="@user.Id" hidden />
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <b>Edit User</b>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </h5>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <h4 id="message_error" class="col-md-12"></h4>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <form id="frm-change-profile">
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label>Name:</label>
+                                    <input id="Name" name="Name" disabled readonly value="@user.Name" class="form-control" required />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label>Email:</label>
+                                    <input id="Email" name="Email" disabled readonly value="@user.Email" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <label>Password:</label>
+                                    <input id="PassWord" name="PassWord" type="password" value="@user.PassWord" class="form-control" />
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <div id="btn-save" class="col-sm-6">
+                    <p>
+                        <a href="#" class="btn btn-default btn-lg btn-block">Save</a>
+                    </p>
+                </div>
+
+                <div id="btn-close" class="col-sm-6">
+                    <p>
+                        <a id="close" class="btn btn-default btn-lg btn-block" href="#">Cancel</a>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+    <script type="text/javascript">
+        var changed;
+
+        $(document).ready($(function () {
+            $("#modal-user").on("shown.bs.modal", function () {
+                $("#close").text("Cancel");
+                $("#message_error").text("");
+                $("#PASS_USER").focus();
+                changed = false;
+            });
+            $("#btn-close").click(function () {
+                $("#modal-user").modal("hide");
+            });
+            $("#btn-save").click(function () {
+                saveProfile();
+            });
+        }));
+        $('#modal-user').on('hidden.bs.modal', function () {
+            if (changed) {
+                location.reload();
+            }
+        })
+        
+        function saveProfile() {
+
+            var url = "/User/SaveProfile";
+            var params = {
+                id: $("#idUser").val(),
+                name: $("#Name").val(),
+                email: $("#Email").val(),
+                password: $("#PassWord").val()
+            };
+            $.post(url, params, function (data) {
+                if (data == 'Sucesso') {
+                    $("#message_error").text("Profile update success.");
+                    changed = true;
+                    $("#close").text("Close");
+                } else {
+                    $("#message_error").text("Error profile update!");
+                }
+                
+            });
+        }
+    </script>
