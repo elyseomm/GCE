@@ -1,90 +1,121 @@
 ﻿<!-- Modal de Edicao -->
 
 <div class="modal fade" id="modal-supplier-edit" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" style="width: 90%;">
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title"><b id="mdl-title">Fornecedor Pessoa Jurídica</b></h5>
-            </div>
+                <div class="row">
+                    <div class="col-md-7">
+                        <h2><b id="mdl-title">Fornecedor Pessoa Jurídica</b></h2>
+                    </div>
 
-            <div class="row">
-                <div class="col-md-4">
-                </div>
-                <div class="col-md-8">
-                    <div class="btn-group" style="align-content: end">
-                        <button class="button" id="btnIncluir">Incluir</button>
-                        <button class="button" id="btnAbrir">Abrir</button>
-                        <button class="button">Excluir</button>
-                        <button class="button">Ativar</button>
-                        <button class="button">Desativar</button>
-                        <button class="button">Voltar</button>
+                    <div class="col-md-5" style="margin-top: 10px">
+                        <div class="btn-group btn-block">
+                            <button class="button" id="btnVoltar" style="float: right;" data-dismiss="modal">Voltar</button>
+                            <button class="button" id="btnSalvar" style="float: right;">Salvar</button>
+                            <button class="button" id="btnDesativar" style="float: right;">Desativar</button>
+                        </div>
                     </div>
                 </div>
+
             </div>
 
             <div class="modal-body">
-                <form id="frm-edit-pj">
+                <form id="frm-edit">
 
-                    <input type="hidden" id="id-supp" name="id-supp" />
-                    
+                    <input type="hidden" id="id-supplier" name="id-supplier" value="" />
+                    <input type="hidden" id="id-tipopessoa" name="id-tipopessoa" value="" />
+
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-3">
                             <label>Tipo de Pessoa:</label>
                             <input id="tipoPessoa" name="tipoPessoa" class="form-control" />
-
+                        </div>
+                        <div class="col-md-3">
                             <label>Nacional:</label>
                             <input id="nacional" name="nacional" class="form-control" />
-
+                        </div>
+                        <div class="col-md-3">
                             <label>Dt. Últ. Atualização:</label>
                             <input id="dtatualizacao" name="dtatualizacao" class="form-control" />
-
+                        </div>
+                        <div class="col-md-3">
                             <label>Situação:</label>
                             <input id="situacao" name="situacao" class="form-control" />
                         </div>
                     </div>
 
                     <div class="row">
-                        <h3 class="modal-header"><b>Degtalhes</b></h3>
-                        <div class="col-md-12">
+                        <div class="col-md-12"><h4 class="modal-header"><b>Detalhes</b></h4></div>
+                        <div class="col-md-2">
                             <label>CNPJ:</label>
                             <input id="cpfcnpj" name="cpfcnpj" class="form-control" />
-
+                        </div>
+                        <div class="col-md-4">
                             <label>RazaoSocial:</label>
                             <input id="razaosocial" name="razaosocial" class="form-control" />
-
+                        </div>
+                        <div class="col-md-4">
                             <label>Nome Fantasia:</label>
                             <input id="nomefantasia" name="nomefantasia" class="form-control" />
-
+                        </div>
+                        <div class="col-md-2">
                             <label>Tipo de Empresa:</label>
                             <input id="tipoempresa" name="tipoempresa" class="form-control" />
-                            @*<div class="input-group">
-                                <label for="" opt-input-return">Station Return:</label>
-                                <select id="opt-tipoempresa" class="form-control">
-                                    <option title="Station Return">MASTER_PACK01</option>
-                                    <option title="Station Return">MASTER_PACK02</option>
-                                    <option title="Station Return">MASTER_PACK03</option>
-                                </select>
-                            </div>*@
-
                         </div>
+                        @*<div class="input-group">
+                <label for="" opt-input-return">Station Return:</label>
+                <select id="opt-tipoempresa" class="form-control">
+                    <option title="Station Return">MASTER_PACK01</option>
+                    <option title="Station Return">MASTER_PACK02</option>
+                    <option title="Station Return">MASTER_PACK03</option>
+                </select>
+            </div>*@
                     </div>
 
+                    <div class="row" style="margin-top: 10px">
+                        <div class="col-md-2">
+                            <label>Data de Constituição:</label>
+                            <input id="dtConstituicao" name="dtConstituicao" class="form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <label>Porte:</label>
+                            <input id="porte" name="porte" class="form-control" />
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Fone1:</label>
+                            <input id="fone1" name="fone1" class="form-control" />
+                        </div>
+                        <div class="col-md-2">
+                            <label>Fone2:</label>
+                            <input id="fone2" name="fone2" class="form-control" />
+                        </div>
+                        <div class="col-md-2">
+                            <label>Fone3:</label>
+                            <input id="fone3" name="fone3" class="form-control" />
+                        </div>
+                    </div>
                 </form>
             </div>
-
-            <div class="modal-footer">
-                <button id="btn-save" type="button" class="btn btn-primary">Save</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            </div>
-
+            
         </div>
     </div>
 </div>
 
 <style>
 
-    .deslink-inputs div {
+    .modal-header {
+        font-weight: bold;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #486f43;
+        color: white;
+    }
+
+    /*.deslink-inputs div {
         margin-bottom: 2rem;
         width: 40%;
     }
@@ -123,5 +154,5 @@
 
     .deslink-inputs #sn-input-list li p {
         margin: unset;
-    }
+    }*/
 </style>

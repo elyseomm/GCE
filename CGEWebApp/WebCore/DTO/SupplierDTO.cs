@@ -49,18 +49,14 @@ namespace WebCore.DTO
 
         public string GetSituacao { 
             get { 
-                return Situacao == (int)EnumSupplierSituation.Ativado ? "Ativado" :
-                    Situacao == (int)EnumSupplierSituation.Desativado ? "Desativado" :
-                    "Em Elaboração"; 
+                return Situacao.ToEnum<EnumSupplierSituation>().GetDescription();
             } }
 
         public string GetTipoEmpresa 
         {
             get
             {
-                return TipoEmpresa == (int)EnumSupplierSituation.Ativado ? "Ativado" :
-                    Situacao == (int)EnumSupplierSituation.Desativado ? "Desativado" :
-                    "Em Elaboração";
+                return TipoEmpresa.ToEnum<EnumPorteEmpresa>().GetDescription();
             }
         }
 

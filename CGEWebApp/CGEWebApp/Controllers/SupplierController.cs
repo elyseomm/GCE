@@ -1,4 +1,5 @@
-﻿using PagedList;
+﻿using Newtonsoft.Json.Linq;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Data.Objects;
@@ -9,11 +10,12 @@ using WebCore;
 using WebCore.ClientHttp;
 using WebCore.DTO;
 using WebCore.Enums;
+using WebCore.Responses;
 using WebCore.Services;
 
 namespace CGEWebApp.Controllers
 {
-    public class SupplierController : Controller
+    public class SupplierController : BaseController
     {
         private SupplierService _service = null;
 
@@ -45,11 +47,20 @@ namespace CGEWebApp.Controllers
         }
 
         // GET: Supplier/Details/5
-        public ActionResult Details(int id)
+        public JsonResult GetById(int id)
         {
+            var response = ResponseBase.ResponseError("Fornecedor não encontrado!");
             _service = GetService();
             var row = _service.GetById(id);
-            return View(row);
+            if (row.IsNotNull())
+            {
+                response.ResponseText = "OK";
+                response.Data = row;
+                response.Status = true;
+                
+                return JsonResponse(response);
+            }
+            return JsonResponse(response);
         }
 
         // GET: Supplier/Create

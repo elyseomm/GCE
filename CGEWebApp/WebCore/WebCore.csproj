@@ -70,6 +70,7 @@
     <Compile Include="Enums\EnumPorteEmpresa.cs" />
     <Compile Include="Enums\EnumSupplierSituation.cs" />
     <Compile Include="Extensions\EnumExtension.cs" />
+    <Compile Include="Responses\ResponseBase.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Services\SupplierService.cs" />
     <Compile Include="ClientHttp\ApiClientRequest.cs" />

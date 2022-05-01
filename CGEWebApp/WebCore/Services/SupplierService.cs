@@ -62,51 +62,53 @@ namespace WebCore.Services
             try
             {
                 var jStrResponse = await _client.DoGet(GET_ALL_SUPPLIERS);
-
-                var jrows = Utils.ToJArray(jStrResponse);
-                if (jrows.IsNotNull())
+                if (jStrResponse.IsSet())
                 {
-                    result = jrows.Select(x => new SupplierDTO()
+                    var jrows = Utils.ToJArray(jStrResponse);
+                    if (jrows.IsNotNull())
                     {
-                        Id = x.Value<int>("id"),
-                        TipoPessoa = x.Value<int>("tipoPessoa"),
-                        TipoEmpresa = x.Value<int>("tipoEmpresa"),
-                        Nacional = x.Value<int>("nacional"),
-                        Situacao = x.Value<int>("situacao"),
-                        
-                        CPFCNPJ = x.Value<string>("cpfcnpj"),
-                        RazaoSocial = x.Value<string>("razaoSocial"),
-                        Fone1 = x.Value<string>("fone1"),
-                        Fone2 = x.Value<string>("fone2"),
-                        Fone3 = x.Value<string>("fone3"),
-                        Email = x.Value<string>("email"),
+                        result = jrows.Select(x => new SupplierDTO()
+                        {
+                            Id = x.Value<int>("id"),
+                            TipoPessoa = x.Value<int>("tipoPessoa"),
+                            TipoEmpresa = x.Value<int>("tipoEmpresa"),
+                            Nacional = x.Value<int>("nacional"),
+                            Situacao = x.Value<int>("situacao"),
 
-                        DtAtualizacao = x.Value<DateTime>("dtAtualizacao"),
+                            CPFCNPJ = x.Value<string>("cpfcnpj"),
+                            RazaoSocial = x.Value<string>("razaoSocial"),
+                            Fone1 = x.Value<string>("fone1"),
+                            Fone2 = x.Value<string>("fone2"),
+                            Fone3 = x.Value<string>("fone3"),
+                            Email = x.Value<string>("email"),
 
-                        #region Atributos Pessoa Juridica
+                            DtAtualizacao = x.Value<DateTime>("dtAtualizacao"),
 
-                        Porte = x.Value<int?>("porte"),
-                        CaracterizacaoCapital = x.Value<int?>("caracterizacaoCapital"),                        
-                        NomeFantasia = x.Value<string>("nomeFantasia"),
-                        WebSite = x.Value<string>("webSite"),
-                        QtdQuota = x.Value<decimal?>("qtdQuota"),
-                        VlrQuota = x.Value<decimal?>("vlrQuota"),
-                        CapitalSocial = x.Value<decimal?>("capitalSocial"),
-                        DtConstituicao = x.Value<DateTime?>("dtConstituicao"),
+                            #region Atributos Pessoa Juridica
 
-                        #endregion
-                        
-                        #region Atributos Pessoa Física
+                            Porte = x.Value<int?>("porte"),
+                            CaracterizacaoCapital = x.Value<int?>("caracterizacaoCapital"),
+                            NomeFantasia = x.Value<string>("nomeFantasia"),
+                            WebSite = x.Value<string>("webSite"),
+                            QtdQuota = x.Value<decimal?>("qtdQuota"),
+                            VlrQuota = x.Value<decimal?>("vlrQuota"),
+                            CapitalSocial = x.Value<decimal?>("capitalSocial"),
+                            DtConstituicao = x.Value<DateTime?>("dtConstituicao"),
 
-                        EstadoCivil = x.Value<int?>("estadoCivil"),
-                        Profissao = x.Value<string>("profissao"),
-                        DtNascimento = x.Value<DateTime?>("dtNascimento"),
-                        Genero = x.Value<int?>("genero"),
-                        Nacionalidade = x.Value<string>("nacionalidade")
-                        
-                        #endregion
+                            #endregion
 
-                    }).ToList();
+                            #region Atributos Pessoa Física
+
+                            EstadoCivil = x.Value<int?>("estadoCivil"),
+                            Profissao = x.Value<string>("profissao"),
+                            DtNascimento = x.Value<DateTime?>("dtNascimento"),
+                            Genero = x.Value<int?>("genero"),
+                            Nacionalidade = x.Value<string>("nacionalidade")
+
+                            #endregion
+
+                        }).ToList();
+                    }
                 }
             }
             catch (Exception ex)
@@ -122,52 +124,53 @@ namespace WebCore.Services
             {
                 var get_by_id = $"{GET_SUPPLIER}/{id}";
                 var jStrResponse = _client.DoGet(get_by_id).Result;
-
-                var jobj = Utils.ToJObj(jStrResponse);
-                var jrows = Utils.ToJArray(jStrResponse);
-                if (jrows.IsNotNull())
+                if (jStrResponse.IsSet())
                 {
-                    result = jrows.Select(x => new SupplierDTO()
+                    var jobj = Utils.ToJObj(jStrResponse);
+                    if (jobj.IsNotNull())
                     {
-                        Id = x.Value<int>("id"),
-                        TipoPessoa = x.Value<int>("tipoPessoa"),
-                        TipoEmpresa = x.Value<int>("tipoEmpresa"),
-                        Nacional = x.Value<int>("nacional"),
-                        Situacao = x.Value<int>("situacao"),
+                        result = new SupplierDTO()
+                        {
+                            Id = jobj.Value<int>("id"),
+                            TipoPessoa = jobj.Value<int>("tipoPessoa"),
+                            TipoEmpresa = jobj.Value<int>("tipoEmpresa"),
+                            Nacional = jobj.Value<int>("nacional"),
+                            Situacao = jobj.Value<int>("situacao"),
 
-                        CPFCNPJ = x.Value<string>("cpfcnpj"),
-                        RazaoSocial = x.Value<string>("razaoSocial"),
-                        Fone1 = x.Value<string>("fone1"),
-                        Fone2 = x.Value<string>("fone2"),
-                        Fone3 = x.Value<string>("fone3"),
-                        Email = x.Value<string>("email"),
+                            CPFCNPJ = jobj.Value<string>("cpfcnpj"),
+                            RazaoSocial = jobj.Value<string>("razaoSocial"),
+                            Fone1 = jobj.Value<string>("fone1"),
+                            Fone2 = jobj.Value<string>("fone2"),
+                            Fone3 = jobj.Value<string>("fone3"),
+                            Email = jobj.Value<string>("email"),
 
-                        DtAtualizacao = x.Value<DateTime>("dtAtualizacao"),
+                            DtAtualizacao = jobj.Value<DateTime>("dtAtualizacao"),
 
-                        #region Atributos Pessoa Juridica
+                            #region Atributos Pessoa Juridica
 
-                        Porte = x.Value<int?>("porte"),
-                        CaracterizacaoCapital = x.Value<int?>("caracterizacaoCapital"),
-                        NomeFantasia = x.Value<string>("nomeFantasia"),
-                        WebSite = x.Value<string>("webSite"),
-                        QtdQuota = x.Value<decimal?>("qtdQuota"),
-                        VlrQuota = x.Value<decimal?>("vlrQuota"),
-                        CapitalSocial = x.Value<decimal?>("capitalSocial"),
-                        DtConstituicao = x.Value<DateTime?>("dtConstituicao"),
+                            Porte = jobj.Value<int?>("porte"),
+                            CaracterizacaoCapital = jobj.Value<int?>("caracterizacaoCapital"),
+                            NomeFantasia = jobj.Value<string>("nomeFantasia"),
+                            WebSite = jobj.Value<string>("webSite"),
+                            QtdQuota = jobj.Value<decimal?>("qtdQuota"),
+                            VlrQuota = jobj.Value<decimal?>("vlrQuota"),
+                            CapitalSocial = jobj.Value<decimal?>("capitalSocial"),
+                            DtConstituicao = jobj.Value<DateTime?>("dtConstituicao"),
 
-                        #endregion
+                            #endregion
 
-                        #region Atributos Pessoa Física
+                            #region Atributos Pessoa Física
 
-                        EstadoCivil = x.Value<int?>("estadoCivil"),
-                        Profissao = x.Value<string>("profissao"),
-                        DtNascimento = x.Value<DateTime?>("dtNascimento"),
-                        Genero = x.Value<int?>("genero"),
-                        Nacionalidade = x.Value<string>("nacionalidade")
+                            EstadoCivil = jobj.Value<int?>("estadoCivil"),
+                            Profissao = jobj.Value<string>("profissao"),
+                            DtNascimento = jobj.Value<DateTime?>("dtNascimento"),
+                            Genero = jobj.Value<int?>("genero"),
+                            Nacionalidade = jobj.Value<string>("nacionalidade")
 
-                        #endregion
+                            #endregion
 
-                    }).FirstOrDefault();
+                        };
+                    }
                 }
             }
             catch (Exception ex)
