@@ -94,6 +94,14 @@ namespace WebCore
         public static string JoinStr(this ICollection<string> obj)
         {
             return string.Join("", obj);
+        }       
+
+        public static string Str(this object value)
+        {
+            if (value == null)
+                return string.Empty;
+
+            return value.ToString();
         }
 
         public static bool In(this decimal value, IEnumerable<decimal> source)

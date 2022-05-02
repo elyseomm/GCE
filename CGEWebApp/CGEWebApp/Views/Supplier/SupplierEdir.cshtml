@@ -7,7 +7,7 @@
             <div class="modal-header">
                 <div class="row">
                     <div class="col-md-7">
-                        <h2><b id="mdl-title">Fornecedor Pessoa Jurídica</b></h2>
+                        <h2><b id="mdl-title"></b></h2>
                     </div>
 
                     <div class="col-md-5" style="margin-top: 10px">
@@ -33,8 +33,14 @@
                             <input id="tipoPessoa" name="tipoPessoa" class="form-control" />
                         </div>
                         <div class="col-md-3">
-                            <label>Nacional:</label>
-                            <input id="nacional" name="nacional" class="form-control" />
+                            <div class="input-group">
+                                <label>Nacional:</label>
+                                <select id="nacional" name="nacional" class="form-control">
+                                    <option value="1">Sim</option>
+                                    <option value="0">Não</option>
+                                </select>
+                            </div>
+
                         </div>
                         <div class="col-md-3">
                             <label>Dt. Últ. Atualização:</label>
@@ -46,6 +52,7 @@
                         </div>
                     </div>
 
+                    @* CNPJ - RAZAO SOCIAL - NOME FANTASIA - TIPO EMPRESA *@
                     <div class="row">
                         <div class="col-md-12"><h4 class="modal-header"><b>Detalhes</b></h4></div>
                         <div class="col-md-2">
@@ -62,26 +69,21 @@
                         </div>
                         <div class="col-md-2">
                             <label>Tipo de Empresa:</label>
-                            <input id="tipoempresa" name="tipoempresa" class="form-control" />
+                            @*<input id="tipoempresa" name="tipoempresa" class="form-control" />*@
+                            <select id="tipoempresa" name="tipoempresa" class="form-control"></select>
                         </div>
-                        @*<div class="input-group">
-                <label for="" opt-input-return">Station Return:</label>
-                <select id="opt-tipoempresa" class="form-control">
-                    <option title="Station Return">MASTER_PACK01</option>
-                    <option title="Station Return">MASTER_PACK02</option>
-                    <option title="Station Return">MASTER_PACK03</option>
-                </select>
-            </div>*@
                     </div>
 
-                    <div class="row" style="margin-top: 10px">
+                    @* DT CONSTRUCAO - PORTE - FONE1 - FONE2 - FONE3 *@
+                    <div class="row" style="margin-top: 12px">
                         <div class="col-md-2">
                             <label>Data de Constituição:</label>
                             <input id="dtConstituicao" name="dtConstituicao" class="form-control" />
                         </div>
                         <div class="col-md-4">
                             <label>Porte:</label>
-                            <input id="porte" name="porte" class="form-control" />
+                            @*<input id="porte" name="porte" class="form-control" />*@
+                            <select id="porte" name="porte" class="form-control"></select>
                         </div>
 
                         <div class="col-md-2">
@@ -97,6 +99,43 @@
                             <input id="fone3" name="fone3" class="form-control" />
                         </div>
                     </div>
+
+                    @* WEBSITE - EMAIL PRICIPAL *@
+                    <div class="row" style="margin-top: 12px">
+                        <div class="col-md-6">
+                            <label>Website:</label>
+                            <input id="website" name="website" class="form-control" />
+                        </div>
+                        <div class="col-md-6">
+                            <label>E-mail Principal:</label>
+                            <input id="email" name="email" class="form-control" />
+                        </div>
+                    </div>
+
+                    @* CARACTERIZACAO CAPITAL - QTD QUOTA- VLR QUOTA - CAPITAL SOCIAL *@
+                <div class="row" style="margin-top: 12px">
+                    <div class="col-md-4">
+                        <label>Caracterizxação do Capital:</label>
+                        @*<input id="porte" name="porte" class="form-control" />*@
+                        <select id="caractcapital" name="caractcapital" class="form-control"></select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>Quantidade de Quota:</label>
+                        <input id="qtdquota" name="qtdquota" class="form-control" />
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>Valor de Quota:</label>
+                        <input id="vlrquota" name="vlrquota" class="form-control" />
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>Capital Social:</label>
+                        <input id="capitalsocial" name="capitalsocial" class="form-control" />
+                    </div>
+                </div>
+
                 </form>
             </div>
             

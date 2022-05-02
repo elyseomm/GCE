@@ -2,6 +2,7 @@
 @using PagedList.Mvc;
 @model PagedList.IPagedList<WebCore.DTO.SupplierDTO>
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Listagem de Fornecedores";
 
     <div class="body-content">
@@ -37,7 +38,7 @@
                         <button class="button" id="btnVoltar">Voltar</button>
                     </div>
                 </div>
-            </div>            
+            </div>
             <hr />
             <table class="table" id="suppliers">
                 <tr style="background: #EBEBEB">
@@ -76,12 +77,21 @@
                             @Html.DisplayTextFor(m => item.GetSituacao)
                         </td>
                         @*<td class="text-center" style="width: 210px">
-                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary btn-xs btn-style" })&nbsp;
-                            @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-default btn-xs btn-style" })&nbsp;
-                            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-xs btn-style" })
-                        </td>*@
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary btn-xs btn-style" })&nbsp;
+                                @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-default btn-xs btn-style" })&nbsp;
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-xs btn-style" })
+                            </td>*@
+
+                        @*<div class="input-group">
+                            <label for="" opt-input-return">Station Return:</label>
+                            <select id="opt-tipoempresa" class="form-control">
+                                <option title="Station Return">MASTER_PACK01</option>
+                                <option title="Station Return">MASTER_PACK02</option>
+                                <option title="Station Return">MASTER_PACK03</option>
+                            </select>
+                        </div>*@
                     </tr>
-                    }
+                }
             </table>
         }
 
@@ -90,8 +100,9 @@
         @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
 
         @*@Html.PagedListPager(Model, page => Url.Action("Index", new { @ViewBag.workOrder, page, @ViewBag.filter }))*@
-        @Html.Partial(@"~/Views/Supplier/SupplierEdir.cshtml")
     </div>
+
+    @Html.Partial(@"~/Views/Supplier/SupplierEdir.cshtml")
 }
 <style>
     /**Cor quando selecionado**/
@@ -99,10 +110,6 @@
         background-color: #afd8ff;
         /*#bdefed;*/
     }
-
-    /*.btn-group {
-        background-color: darkred;*/ /* Green */
-    /*}*/
 
     .btn-group .button {
         background-color: #00577d; /* Green */
@@ -158,5 +165,4 @@
         background-color: #486f43;
         color: white;
     }
-    
 </style>

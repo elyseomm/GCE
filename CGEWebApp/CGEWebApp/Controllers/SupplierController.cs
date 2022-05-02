@@ -1,6 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using CGEWebApp.Tools;
+using Newtonsoft.Json.Linq;
 using PagedList;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Objects;
 using System.Linq;
@@ -54,8 +56,16 @@ namespace CGEWebApp.Controllers
             var row = _service.GetById(id);
             if (row.IsNotNull())
             {
+                var tipoEmpresaList = Tool.GetListTipoEmpresas();
+                var porteList = Tool.GetListPorteEmpresas();
+                var lstTipoCapital = Tool.GetListTipoCapital();
+
                 response.ResponseText = "OK";
-                response.Data = row;
+                response.Data = new { data = row,
+                    lstTpEmpresas = tipoEmpresaList,
+                    lstPorteEmpresas = porteList,
+                    lstCaractCapital = lstTipoCapital,
+                };
                 response.Status = true;
                 
                 return JsonResponse(response);

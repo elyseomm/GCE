@@ -116,14 +116,7 @@ namespace WebCore
         {
             return !value.IsSet();
         }
-
-        public static string Str(this object value)
-        {
-            if (value == null)
-                return string.Empty;
-
-            return value.ToString();
-        }
+                
 
         public static string _F(this string value, params object[] args)
         {

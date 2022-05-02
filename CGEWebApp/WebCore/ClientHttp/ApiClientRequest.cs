@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace WebCore.ClientHttp
 {
     public class ApiClientRequest
-    {
-        private Uri _url = null;
+    {        
         private string _urlApi = string.Empty;
         private string _pingRoute = string.Empty;
         private Dictionary<string, string> _headers { get; set; }
@@ -31,12 +27,14 @@ namespace WebCore.ClientHttp
             if (!OnLine.Result)
                 throw new Exception("O Servidor RestAPI(CGE.Api) está Off-Line!");
 
-            InitializeApiClientRequest(this._urlApi);
+            //InitializeApiClientRequest(this._urlApi);
+            InitializeApiClientRequest();
         }
                
-        private void InitializeApiClientRequest(string url)
+        //private void InitializeApiClientRequest(string url)
+        private void InitializeApiClientRequest()
         {
-            this._url = new UriBuilder(url).Uri;
+            //this._url = new UriBuilder(url).Uri;
             _headers = new Dictionary<string, string>();
             _values = new Dictionary<string, string>();            
         }
