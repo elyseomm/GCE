@@ -52,89 +52,159 @@
                         </div>
                     </div>
 
-                    @* CNPJ - RAZAO SOCIAL - NOME FANTASIA - TIPO EMPRESA *@
-                    <div class="row">
-                        <div class="col-md-12"><h4 class="modal-header"><b>Detalhes</b></h4></div>
-                        <div class="col-md-2">
-                            <label>CNPJ:</label>
-                            <input id="cpfcnpj" name="cpfcnpj" class="form-control" />
-                        </div>
-                        <div class="col-md-4">
-                            <label>RazaoSocial:</label>
-                            <input id="razaosocial" name="razaosocial" class="form-control" />
-                        </div>
-                        <div class="col-md-4">
-                            <label>Nome Fantasia:</label>
-                            <input id="nomefantasia" name="nomefantasia" class="form-control" />
-                        </div>
-                        <div class="col-md-2">
-                            <label>Tipo de Empresa:</label>
-                            @*<input id="tipoempresa" name="tipoempresa" class="form-control" />*@
-                            <select id="tipoempresa" name="tipoempresa" class="form-control"></select>
-                        </div>
-                    </div>
+                    <div id="detalhePF">
+                        
+                        @* CPF - NOME - EMAIL *@
+                        <div class="row">
+                            <div class="col-md-12"><h4 class="modal-header"><b>Detalhes</b></h4></div>
+                            <div class="col-md-2">
+                                <label>CPF:</label>
+                                <input id="cpf" name="cpf" class="form-control" />
+                            </div>
+                            <div class="col-md-5">
+                                <label>Nome:</label>
+                                <input id="nome" name="nome" class="form-control" />
+                            </div>
 
-                    @* DT CONSTRUCAO - PORTE - FONE1 - FONE2 - FONE3 *@
-                    <div class="row" style="margin-top: 12px">
-                        <div class="col-md-2">
-                            <label>Data de Constituição:</label>
-                            <input id="dtConstituicao" name="dtConstituicao" class="form-control" />
-                        </div>
-                        <div class="col-md-4">
-                            <label>Porte:</label>
-                            @*<input id="porte" name="porte" class="form-control" />*@
-                            <select id="porte" name="porte" class="form-control"></select>
+                            <div class="col-md-5">
+                                <label>E-mail Principal:</label>
+                                <input id="emailpf" name="emailpf" class="form-control" />
+                            </div>                            
                         </div>
 
-                        <div class="col-md-2">
-                            <label>Fone1:</label>
-                            <input id="fone1" name="fone1" class="form-control" />
+                        @* ESTADO CIVIL - PROFISSAO - FONE1 - FONE2 - FONE3 *@
+                        <div class="row" style="margin-top: 12px">
+                            <div class="col-md-2">
+                                <label>Estado Civil:</label>                            
+                                <select id="estadocivil" name="estadocivil" class="form-control"></select>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label>Profissão:</label>
+                                <input id="profissao" name="profissao" class="form-control" />
+                            </div>                       
+
+                            <div class="col-md-2">
+                                <label>Fone1:</label>
+                                <input id="fone1pf" name="fone1pf" class="form-control" />
+                            </div>
+                            <div class="col-md-2">
+                                <label>Fone2:</label>
+                                <input id="fone2pf" name="fone2pf" class="form-control" />
+                            </div>
+                            <div class="col-md-2">
+                                <label>Fone3:</label>
+                                <input id="fone3pf" name="fone3pf" class="form-control" />
+                            </div>
                         </div>
-                        <div class="col-md-2">
-                            <label>Fone2:</label>
-                            <input id="fone2" name="fone2" class="form-control" />
+
+                        @* TIPO EMPRESA - DT NASCIMENTO - GENERO - NACIONALIDADE *@
+                        <div class="row" style="margin-top: 12px">
+                            <div class="col-md-3">
+                                <label>Tipo de Empresa:</label>
+                                <select id="tipoempresapf" name="tipoempresapf" class="form-control"></select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Nascimento:</label>
+                                <input id="dtnascimento" name="dtnascimento" class="form-control" />
+                            </div>
+                            <div class="col-md-3">
+                                <label>Gênero:</label>
+                                <select id="genero" name="genero" class="form-control"></select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Nascionalidade:</label>
+                                <input id="nacionalidade" name="nacionalidade" class="form-control" />
+                            </div>
                         </div>
-                        <div class="col-md-2">
-                            <label>Fone3:</label>
-                            <input id="fone3" name="fone3" class="form-control" />
-                        </div>
+                       
                     </div>
 
-                    @* WEBSITE - EMAIL PRICIPAL *@
-                    <div class="row" style="margin-top: 12px">
-                        <div class="col-md-6">
-                            <label>Website:</label>
-                            <input id="website" name="website" class="form-control" />
+                    <div id="detalhePJ">
+                        @* CNPJ - RAZAO SOCIAL - NOME FANTASIA - TIPO EMPRESA *@
+                        <div class="row">
+                            <div class="col-md-12"><h4 class="modal-header"><b>Detalhes</b></h4></div>
+                            <div class="col-md-2">
+                                <label>CNPJ:</label>
+                                <input id="cnpj" name="cnpj" class="form-control" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>RazaoSocial:</label>
+                                <input id="razaosocial" name="razaosocial" class="form-control" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Nome Fantasia:</label>
+                                <input id="nomefantasia" name="nomefantasia" class="form-control" />
+                            </div>
+                            <div class="col-md-2">
+                                <label>Tipo de Empresa:</label>
+                                @*<input id="tipoempresa" name="tipoempresa" class="form-control" />*@
+                                <select id="tipoempresapj" name="tipoempresapj" class="form-control"></select>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <label>E-mail Principal:</label>
-                            <input id="email" name="email" class="form-control" />
+
+                        @* DT CONSTRUCAO - PORTE - FONE1 - FONE2 - FONE3 *@
+                        <div class="row" style="margin-top: 12px">
+                            <div class="col-md-2">
+                                <label>Data de Constituição:</label>
+                                <input id="dtConstituicao" name="dtConstituicao" class="form-control" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Porte:</label>
+                                @*<input id="porte" name="porte" class="form-control" />*@
+                                <select id="porte" name="porte" class="form-control"></select>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label>Fone1:</label>
+                                <input id="fone1" name="fone1" class="form-control" />
+                            </div>
+                            <div class="col-md-2">
+                                <label>Fone2:</label>
+                                <input id="fone2" name="fone2" class="form-control" />
+                            </div>
+                            <div class="col-md-2">
+                                <label>Fone3:</label>
+                                <input id="fone3" name="fone3" class="form-control" />
+                            </div>
+                        </div>
+
+                        @* WEBSITE - EMAIL PRICIPAL *@
+                        <div class="row" style="margin-top: 12px">
+                            <div class="col-md-6">
+                                <label>Website:</label>
+                                <input id="website" name="website" class="form-control" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>E-mail Principal:</label>
+                                <input id="email" name="email" class="form-control" />
+                            </div>
+                        </div>
+
+                        @* CARACTERIZACAO CAPITAL - QTD QUOTA- VLR QUOTA - CAPITAL SOCIAL *@
+                        <div class="row" style="margin-top: 12px">
+                            <div class="col-md-4">
+                                <label>Caracterizxação do Capital:</label>
+                                @*<input id="porte" name="porte" class="form-control" />*@
+                                <select id="caractcapital" name="caractcapital" class="form-control"></select>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label>Quantidade de Quota:</label>
+                                <input id="qtdquota" name="qtdquota" class="form-control" />
+                            </div>
+
+                            <div class="col-md-2">
+                                <label>Valor de Quota:</label>
+                                <input id="vlrquota" name="vlrquota" class="form-control" />
+                            </div>
+
+                            <div class="col-md-2">
+                                <label>Capital Social:</label>
+                                <input id="capitalsocial" name="capitalsocial" class="form-control" />
+                            </div>
                         </div>
                     </div>
-
-                    @* CARACTERIZACAO CAPITAL - QTD QUOTA- VLR QUOTA - CAPITAL SOCIAL *@
-                <div class="row" style="margin-top: 12px">
-                    <div class="col-md-4">
-                        <label>Caracterizxação do Capital:</label>
-                        @*<input id="porte" name="porte" class="form-control" />*@
-                        <select id="caractcapital" name="caractcapital" class="form-control"></select>
-                    </div>
-
-                    <div class="col-md-2">
-                        <label>Quantidade de Quota:</label>
-                        <input id="qtdquota" name="qtdquota" class="form-control" />
-                    </div>
-
-                    <div class="col-md-2">
-                        <label>Valor de Quota:</label>
-                        <input id="vlrquota" name="vlrquota" class="form-control" />
-                    </div>
-
-                    <div class="col-md-2">
-                        <label>Capital Social:</label>
-                        <input id="capitalsocial" name="capitalsocial" class="form-control" />
-                    </div>
-                </div>
 
                 </form>
             </div>

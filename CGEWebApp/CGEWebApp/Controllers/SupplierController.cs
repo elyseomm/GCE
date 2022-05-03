@@ -12,6 +12,7 @@ using WebCore;
 using WebCore.ClientHttp;
 using WebCore.DTO;
 using WebCore.Enums;
+using WebCore.Extensions;
 using WebCore.Responses;
 using WebCore.Services;
 
@@ -53,18 +54,22 @@ namespace CGEWebApp.Controllers
         {
             var response = ResponseBase.ResponseError("Fornecedor não encontrado!");
             _service = GetService();
-            var row = _service.GetById(id);
+            var row = _service.GetById(id).Result;
             if (row.IsNotNull())
             {
-                var tipoEmpresaList = Tool.GetListTipoEmpresas();
-                var porteList = Tool.GetListPorteEmpresas();
-                var lstTipoCapital = Tool.GetListTipoCapital();
+                var tipoEmpresaList = Tool.GetTipoEmpresasList();
+                var porteList = Tool.GetPorteEmpresasList();
+                var tipoCapitalList = Tool.GetTipoCapitalList();
+                var generoList = Tool.GetGeneroList();
+                var estCivilList = Tool.GetEstadoCivilList();
 
                 response.ResponseText = "OK";
                 response.Data = new { data = row,
                     lstTpEmpresas = tipoEmpresaList,
                     lstPorteEmpresas = porteList,
-                    lstCaractCapital = lstTipoCapital,
+                    lstCaractCapital = tipoCapitalList,
+                    lstGenero = generoList,
+                    lstEstCivil = estCivilList,
                 };
                 response.Status = true;
                 
@@ -98,11 +103,7 @@ namespace CGEWebApp.Controllers
             }
         }
 
-        // GET: Supplier/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+        
 
         // POST: Supplier/Edit/5
         [HttpPost]
@@ -126,20 +127,15 @@ namespace CGEWebApp.Controllers
             }
         }
 
-        // GET: Supplier/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
         // POST: Supplier/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id)
         {
+            var response = ResponseBase.ResponseError("Fornecedor Ativado! Exclusão não permitida.");
             try
             {
                 _service = GetService();
-                var row = _service.GetById(id);
+                var row = _service.GetById(id).Result;
 
                 if ((row.Situacao == (int)EnumSupplierSituation.Desativado) ||
                     (row.Situacao == (int)EnumSupplierSituation.EmElaboracao))
@@ -147,15 +143,38 @@ namespace CGEWebApp.Controllers
                     _service.Delete(row.Id);
                     return RedirectToAction("Index");
                 }
-                //else
-                //return new ObjectResult("Fornecedor Ativado!");
-
-                return null;
             }
-            catch
+            catch( Exception ex)
             {
-                return View();
+                response.ResponseText = ex.Message;
             }
+            return JsonResponse(response);
+        }
+
+        // POST: Supplier/Delete/5
+        [HttpPost]
+        public ActionResult ChangeSituacao(int id, int type)
+        {
+            var tpStatus = type == EnumSupplierSituation.Ativado.AsInt() ? "Ativado" : "Desativado";
+
+            var response = ResponseBase.ResponseError($"Fornecedor já está {tpStatus}!");
+            try
+            {
+                _service = GetService();
+                var row = _service.GetById(id).Result;
+
+                if (row.Situacao == type) 
+                {   
+                    row.Situacao = type;
+                    //_service.SalvarPF(row);
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                response.ResponseText = ex.Message;
+            }
+            return JsonResponse(response);
         }
     }
 }

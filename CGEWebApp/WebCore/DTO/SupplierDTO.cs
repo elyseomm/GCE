@@ -64,7 +64,7 @@ namespace WebCore.DTO
         {
             get
             {
-                return Porte.Value.ToEnum<EnumPorteEmpresa>().GetDescription();
+                return Porte?.ToEnum<EnumPorteEmpresa>().GetDescription();
             }
         }
 

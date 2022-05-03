@@ -117,13 +117,13 @@ namespace WebCore.Services
             }
             return result;
         }
-        public SupplierDTO GetById(int id)
+        public async Task<SupplierDTO> GetById(int id)
         {
             SupplierDTO result = null;
             try
             {
                 var get_by_id = $"{GET_SUPPLIER}/{id}";
-                var jStrResponse = _client.DoGet(get_by_id).Result;
+                var jStrResponse = await _client.DoGet(get_by_id);
                 if (jStrResponse.IsSet())
                 {
                     var jobj = Utils.ToJObj(jStrResponse);

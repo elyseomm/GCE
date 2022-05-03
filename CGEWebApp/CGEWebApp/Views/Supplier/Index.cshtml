@@ -7,17 +7,17 @@
 
     <div class="body-content">
 
-        <div class="row" style="clear: both;">
+        <div class="row" style="clear: both; margin-top: 5%">
             <div class="col-md-12">
-                <div id="alerts" class="alert-danger alert-dismissible"></div>
+                <div id="alerts" class="alert-danger;"></div>
             </div>
         </div>
 
         @if (ViewBag.Erro != "")
         {
-            <div class="alert alert-danger">
+            <div class="alert alert-danger" style="margin-top: 20%">
                 <div class='row'>
-                    <div class='col-md-12 text-danger' style="text-align: center">
+                    <div class='col-md-12' style="text-align: center;">
                         <h1><strong>Erro!</strong></h1>
                         <h2>@ViewBag.Erro</h2>
                     </div>
@@ -41,6 +41,7 @@
             </div>
             <hr />
             <table class="table" id="suppliers">
+
                 <tr style="background: #EBEBEB">
                     <th>#</th>
                     <th>@Html.Raw("Tipo Pessoa")</th>
@@ -51,6 +52,7 @@
                     <th>@Html.Raw("Situacao")</th>
                     <th></th>
                 </tr>
+
                 @foreach (var item in Model)
                 {
                     //var status = item.ACTIVE == 1 ? "Yes" : "No";
@@ -83,86 +85,89 @@
                             </td>*@
 
                         @*<div class="input-group">
-                            <label for="" opt-input-return">Station Return:</label>
-                            <select id="opt-tipoempresa" class="form-control">
-                                <option title="Station Return">MASTER_PACK01</option>
-                                <option title="Station Return">MASTER_PACK02</option>
-                                <option title="Station Return">MASTER_PACK03</option>
-                            </select>
-                        </div>*@
+                                <label for="" opt-input-return">Station Return:</label>
+                                <select id="opt-tipoempresa" class="form-control">
+                                    <option title="Station Return">MASTER_PACK01</option>
+                                    <option title="Station Return">MASTER_PACK02</option>
+                                    <option title="Station Return">MASTER_PACK03</option>
+                                </select>
+                            </div>*@
                     </tr>
                 }
+
             </table>
         }
-
-        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
-
-        @*@Html.PagedListPager(Model, page => Url.Action("Index", new { @ViewBag.workOrder, page, @ViewBag.filter }))*@
     </div>
 
-    @Html.Partial(@"~/Views/Supplier/SupplierEdir.cshtml")
+    if (@ViewBag.Erro == "")
+    {
+        <p>Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount</p>        
+        Html.PagedListPager(Model, page => Url.Action("Index", new { page }));
+    }
 }
-<style>
-    /**Cor quando selecionado**/
-    #suppliers tr.selecionado td {
-        background-color: #afd8ff;
-        /*#bdefed;*/
-    }
 
-    .btn-group .button {
-        background-color: #00577d; /* Green */
-        border: none;
-        border-radius: 8px;
-        color: white;
-        padding: 15px 35px;
-        text-align: left;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 12px;
-        cursor: pointer;
-        float: left;
-    }
+@Html.Partial(@"~/Views/Supplier/SupplierEdir.cshtml")
+@*@Html.PagedListPager(Model, page => Url.Action("Index", new { @ViewBag.workOrder, page, @ViewBag.filter }))*@
 
-        .btn-group .button:hover {
-            background-color: #0e3867;
+    <style>
+        /**Cor quando selecionado**/
+        #suppliers tr.selecionado td {
+            background-color: #afd8ff;
+            /*#bdefed;*/
         }
 
-    .card-body {
-        margin-left: 30px;
-    }
+        .btn-group .button {
+            background-color: #00577d; /* Green */
+            border: none;
+            border-radius: 8px;
+            color: white;
+            padding: 15px 35px;
+            text-align: left;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            cursor: pointer;
+            float: left;
+        }
 
-    th, td {
-        border-bottom: 1px solid #ddd;
-    }
+            .btn-group .button:hover {
+                background-color: #0e3867;
+            }
 
-    #suppliers {
-        font-family: Arial, Helvetica, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-    }
+        .card-body {
+            margin-left: 30px;
+        }
 
-    #customers td, #customers th {
-        border: 1px solid #ddd;
-        padding: 8px;
-        cursor: pointer; /**importante para não mostrar cursor de texto**/
-    }
+        th, td {
+            border-bottom: 1px solid #ddd;
+        }
 
-    #suppliers tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
+        #suppliers {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
 
-    #suppliers tr:hover {
-        background-color: #ddd;
-    }
+        #customers td, #customers th {
+            border: 1px solid #ddd;
+            padding: 8px;
+            cursor: pointer; /**importante para não mostrar cursor de texto**/
+        }
 
-    #suppliers th {
-        font-weight: bold;
-        padding-top: 12px;
-        padding-bottom: 12px;
-        text-align: left;
-        background-color: #486f43;
-        color: white;
-    }
-</style>
+        #suppliers tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #suppliers tr:hover {
+            background-color: #ddd;
+        }
+
+        #suppliers th {
+            font-weight: bold;
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #486f43;
+            color: white;
+        }
+    </style>

@@ -92,7 +92,7 @@ namespace CGEWebApp.Tools
         }
 
 
-        public static List<SelectListItem> GetListTipoEmpresas(int? hidefrom = null)
+        public static List<SelectListItem> GetTipoEmpresasList(int? hidefrom = null)
         {
             if (hidefrom.IsNotNull())
             {
@@ -101,7 +101,7 @@ namespace CGEWebApp.Tools
             else return Tool.GenSelList(typeof(EnumTipoEmpresa),true);
         }
 
-        public static List<SelectListItem> GetListPorteEmpresas(int? hidefrom = null)
+        public static List<SelectListItem> GetPorteEmpresasList(int? hidefrom = null)
         {
             if (hidefrom.IsNotNull())
             {
@@ -110,7 +110,7 @@ namespace CGEWebApp.Tools
             else return Tool.GenSelList(typeof(EnumPorteEmpresa),true);
         }
 
-        public static List<SelectListItem> GetListTipoCapital(int? hidefrom = null)
+        public static List<SelectListItem> GetTipoCapitalList(int? hidefrom = null)
         {
             if (hidefrom.IsNotNull())
             {
@@ -118,6 +118,26 @@ namespace CGEWebApp.Tools
             }
             else return Tool.GenSelList(typeof(EnumTipoCapital), true);
         }
+
+        public static List<SelectListItem> GetGeneroList(int? hidefrom = null)
+        {
+            if (hidefrom.IsNotNull())
+            {
+                return Tool.GenSelList(typeof(EnumGenero), hidefrom);
+            }
+            else return Tool.GenSelList(typeof(EnumGenero), false);
+        }
+
+        public static List<SelectListItem> GetEstadoCivilList(int? hidefrom = null)
+        {
+            if (hidefrom.IsNotNull())
+            {
+                return Tool.GenSelList(typeof(EnumEstadoCivil), hidefrom);
+            }
+            else return Tool.GenSelList(typeof(EnumEstadoCivil), false);
+        }
+
+
 
     }
 }
