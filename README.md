@@ -75,11 +75,11 @@ IMPORTANTE: Precisamos configurar o FRONT-END com o endereço(URL) da 'CGE.Api' 
         <add key="Supplier" value="suppliers" />
         <add key="NewPF" value="suppliers/newpf" />
         <add key="NewPJ" value="suppliers/newpj" />
-        <add key="Ativar" value="suppliers/ativar/{id}" />
-        <add key="Desativar" value="suppliers/desativar/{id}" />
+        <add key="Ativar" value="suppliers/ativar" />
+        <add key="Desativar" value="suppliers/desativar" />
         <add key="UpdatePF" value="suppliers/updatepf" />
         <add key="UpdatePJ" value="suppliers/updatepj" />
-        <add key="Delete" value="suppliers/delete/{id}" />
+        <add key="Delete" value="suppliers/delete" />
 
     Pronto o front já sabe onde consultar os dados na API.
 
