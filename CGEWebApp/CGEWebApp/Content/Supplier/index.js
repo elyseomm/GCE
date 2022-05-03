@@ -4,6 +4,11 @@ var dados;
 var pf = 0;
 var pj = 1;
 
+var em_elaboracao = 0;
+var ativado = 1;
+var desativado = 2;
+
+
 $(document).ready(() => {
 	
 	var id = 0
@@ -13,10 +18,7 @@ $(document).ready(() => {
 		GetSupplierByID(id)
 	})
 	
-	$("td").on("dblclick", function () {
-		//var currTable = $(this).closest("table").attr("id"),
-		//	destinationTable = (currTable.match(/1/)) ? "#table_2" : "#table_1";
-		//$(destinationTable).append($(this).parent())
+	$("td").on("dblclick", function () {		
 		$("#btnAbrir").click()
 	})
 
@@ -28,6 +30,14 @@ $(document).ready(() => {
 		
 	$("#btnExcluir").on('click', () => {
 		DeleteByID(id)
+	})
+
+	$("#btnAtivar").on('click', () => {
+		ChangeSituationByID(id, ativado)
+	})
+
+	$("#btnDesativar").on('click', () => {
+		ChangeSituationByID(id, desativado)
 	})
 })
 
@@ -227,22 +237,26 @@ DeleteByID = (id) => {
 	}
 }
 
-DesativarByID = (id) => {
+ChangeSituationByID = (id, situacao) => {
 
 	$('#alerts').html('')
 
-	let resp = confirm("Deseja realmente desativar o fornecedor?");
+	let tipo = situacao == ativado ? 'ativar' : 'desativar'
+
+	let resp = confirm("Deseja realmente " + tipo + " o fornecedor?");
 
 	if (resp == true) {
 
-		var url = "/Supplier/ChangeSituacao"
+		var url = "/Supplier/MudarSituacao"
 		var params = {
-			type: 0,
+			situacao: situacao,
 			id: id
 		}
 		$.post(url, params, function (response) {
 
-			if (response.Status == false)
+			if (response.Status == true)
+				location.reload()
+			else
 				alertError(response.ResponseText)
 		})
 	}

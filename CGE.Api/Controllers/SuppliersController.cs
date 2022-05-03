@@ -54,7 +54,7 @@ namespace CGE.Api.Controllers
         }
 
 
-        [HttpPatch]
+        [HttpPut]
         [Route("ativar/{id}")]
         public ActionResult<bool>ActivcateSupplier(int id)
         {
@@ -62,7 +62,7 @@ namespace CGE.Api.Controllers
             return new ObjectResult(resp);
         }
 
-        [HttpPatch]
+        [HttpPut]
         [Route("desativar/{id}")]
         public ActionResult<bool> DeactivcateSupplier(int id)
         {

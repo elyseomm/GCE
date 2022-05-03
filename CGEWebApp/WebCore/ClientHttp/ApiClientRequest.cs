@@ -164,7 +164,7 @@ namespace WebCore.ClientHttp
             return string.Empty;
         }
 
-        public async Task<string> DoPut(string routeUrl)
+        public async Task<bool> DoPut(string routeUrl)
         {
             try
             {
@@ -175,11 +175,13 @@ namespace WebCore.ClientHttp
                     var content = new FormUrlEncodedContent(_values);
                     using (var client = new HttpClient())
                     {
-                        var resp = await client.PutAsync(strURL, content);
+                        //var resp = await client.PutAsync(strURL, content);
+                        var resp = client.PutAsync(strURL, content).Result;
                         if (resp.IsSuccessStatusCode)
                         {
                             var strResp = await resp.Content.ReadAsStringAsync();
-                            return strResp;
+                            if (strResp.IsSet())
+                                return bool.Parse(strResp);
                         }
                     }
                 }
@@ -189,10 +191,10 @@ namespace WebCore.ClientHttp
                 throw exception;
             }
 
-            return string.Empty;
+            return false;
         }
                 
-        public async Task<string> DoDelete(string routeUrl)
+        public async Task<bool> DoDelete(string routeUrl)
         {
             try
             {
@@ -201,11 +203,12 @@ namespace WebCore.ClientHttp
                     var strURL = string.Concat(_urlApi, "/", routeUrl);
                     using (var client = new HttpClient())
                     {
-                        var resp = await client.DeleteAsync(strURL);
+                        var resp = client.DeleteAsync(strURL).Result;
                         if (resp.IsSuccessStatusCode)
                         {
                             var strResp = await resp.Content.ReadAsStringAsync();
-                            return strResp;
+                            if (strResp.IsSet())
+                                return bool.Parse(strResp);
                         }
                     }
                 }
@@ -214,8 +217,7 @@ namespace WebCore.ClientHttp
             {
                 throw exception;
             }
-
-            return string.Empty;
+            return false;
         }
 
 

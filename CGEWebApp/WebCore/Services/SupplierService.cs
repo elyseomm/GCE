@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebCore.ClientHttp;
 using WebCore.DTO;
+using WebCore.Enums;
+using WebCore.Extensions;
 
 namespace WebCore.Services
 {
@@ -24,8 +26,8 @@ namespace WebCore.Services
         private string PUT_SUPPLIER_PF = string.Empty;
         private string PUT_SUPPLIER_PJ = string.Empty;
         // * ATIVAR / DESATIVAR
-        private string PATCH_SUPPLIER_ACTIVATE = string.Empty;
-        private string PATCH_SUPPLIER_DEACTIVATE = string.Empty;
+        private string PUT_SUPPLIER_ACTIVATE = string.Empty;
+        private string PUT_SUPPLIER_DEACTIVATE = string.Empty;
         // * DELETAR
         private string DELETE_SUPPLIER = string.Empty;
         
@@ -50,8 +52,8 @@ namespace WebCore.Services
             PUT_SUPPLIER_PF = Utils.Get("UpdatePF");
             PUT_SUPPLIER_PJ = Utils.Get("UpdatePJ");
 
-            PATCH_SUPPLIER_ACTIVATE = Utils.Get("Ativar");
-            PATCH_SUPPLIER_ACTIVATE = Utils.Get("Desativar");
+            PUT_SUPPLIER_ACTIVATE = Utils.Get("Ativar");
+            PUT_SUPPLIER_DEACTIVATE = Utils.Get("Desativar");
 
             DELETE_SUPPLIER = Utils.Get("Delete");
         }
@@ -180,7 +182,7 @@ namespace WebCore.Services
             return result;
         }
 
-        public SupplierPFDTO SalvarPF(SupplierPFDTO dados)
+        public async Task<SupplierPFDTO> SalvarPF(SupplierPFDTO dados)
         {
             SupplierPFDTO result = null;
             try
@@ -190,8 +192,8 @@ namespace WebCore.Services
                 var jObj = JObject.FromObject(dados);
 
                 _client.AddValue("data", jObj.ToString());
-
-                var jrows = _client.DoPost(route).Result;
+                
+                var jrows = await _client.DoPost(route);
 
                 var jobj = Utils.ToJObj(jrows);
 
@@ -207,9 +209,9 @@ namespace WebCore.Services
             return result;
         }
 
-        public SupplierPFDTO SalvarPJ(SupplierPFDTO dados)
+        public async Task<SupplierPJDTO> SalvarPJ(SupplierPJDTO dados)
         {
-            SupplierPFDTO result = null;
+            SupplierPJDTO result = null;
             try
             {
                 var route = $"{POST_SUPPLIER_PJ}";
@@ -218,7 +220,7 @@ namespace WebCore.Services
 
                 _client.AddValue("data", jObj.ToString());
 
-                var jrows = _client.DoPost(route).Result;
+                var jrows = await _client.DoPost(route);
 
                 var jobj = Utils.ToJObj(jrows);
 
@@ -234,25 +236,35 @@ namespace WebCore.Services
             return result;
         }
 
-        public bool Delete(int id )
+        public async Task<bool> Delete(int id )
         {            
             try
             {
                 var route = $"{DELETE_SUPPLIER}/{id}";
-                var jrows = _client.DoDelete(route).Result;
-
-                var jobj = Utils.ToJObj(jrows);
-
-                if (jobj.IsNotNull())
-                {
-
-                }
+                var deletou = await _client.DoDelete(route);
+                return deletou;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            return false;
+        }
+
+        public async Task<bool> ChangeState(int id, int situation)
+        {
+            try
+            {
+                var route = situation == EnumSupplierSituation.Ativado.AsInt() ?
+                            $"{PUT_SUPPLIER_ACTIVATE}/{id}" : $"{PUT_SUPPLIER_DEACTIVATE}/{id}";
+
+                //$"{DELETE_SUPPLIER}/{id}";
+                var alterou = await _client.DoPut(route);               
+                return alterou;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

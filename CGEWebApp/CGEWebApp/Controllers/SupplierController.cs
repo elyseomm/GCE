@@ -78,12 +78,6 @@ namespace CGEWebApp.Controllers
             return JsonResponse(response);
         }
 
-        // GET: Supplier/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
         // POST: Supplier/Create
         [HttpPost]
         public ActionResult CreatePF(FormCollection collection)
@@ -112,14 +106,23 @@ namespace CGEWebApp.Controllers
             try
             {
                 _service = GetService();
-                var row = _service.GetById(id);
-                var pf = new SupplierPFDTO();
+                var row = _service.GetById(id).Result;
 
+                if (row.TipoPessoa == EnumTipoPessoa.PF.AsInt())
+                {
+                    SupplierPFDTO pfDTO = MapToDTO<SupplierPFDTO>(pfDTOMapConfig, row);
+                    var respPF = _service.SalvarPF(pfDTO).Result;
 
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    SupplierPJDTO pjDTO = MapToDTO<SupplierPJDTO>(pjDTOMapConfig, row);
+                    var respPJ = _service.SalvarPJ(pjDTO).Result;
 
-                _service.SalvarPF(pf);
+                    return RedirectToAction("Index");
+                }
 
-                return RedirectToAction("Index");
             }
             catch
             {
@@ -134,15 +137,20 @@ namespace CGEWebApp.Controllers
             var response = ResponseBase.ResponseError("Fornecedor Ativado! Exclusão não permitida.");
             try
             {
-                _service = GetService();
-                var row = _service.GetById(id).Result;
+                //_service = GetService();
+                //var row = _service.GetById(id).Result;
 
-                if ((row.Situacao == (int)EnumSupplierSituation.Desativado) ||
-                    (row.Situacao == (int)EnumSupplierSituation.EmElaboracao))
-                {
-                    _service.Delete(row.Id);
+                //if ((row.Situacao == (int)EnumSupplierSituation.Desativado) ||
+                //    (row.Situacao == (int)EnumSupplierSituation.EmElaboracao))
+                //{
+                //    _service.Delete(row.Id);
+                //    return RedirectToAction("Index");
+                //}
+
+                _service = GetService();
+                var resp = _service.Delete(id).Result;
+                if (resp)
                     return RedirectToAction("Index");
-                }
             }
             catch( Exception ex)
             {
@@ -153,26 +161,30 @@ namespace CGEWebApp.Controllers
 
         // POST: Supplier/Delete/5
         [HttpPost]
-        public ActionResult ChangeSituacao(int id, int type)
+        public ActionResult MudarSituacao(int id, int situacao)
         {
-            var tpStatus = type == EnumSupplierSituation.Ativado.AsInt() ? "Ativado" : "Desativado";
+            var response = ResponseBase.ResponseError($"Fornecedor em Elaboração!");
 
-            var response = ResponseBase.ResponseError($"Fornecedor já está {tpStatus}!");
-            try
+            if (situacao > EnumSupplierSituation.EmElaboracao.AsInt())
             {
-                _service = GetService();
-                var row = _service.GetById(id).Result;
+                var tpStatus = situacao == EnumSupplierSituation.Ativado.AsInt() ? "Ativado" : "Desativado";
 
-                if (row.Situacao == type) 
-                {   
-                    row.Situacao = type;
-                    //_service.SalvarPF(row);
-                    return RedirectToAction("Index");
+                response = ResponseBase.ResponseError($"Fornecedor já está {tpStatus}!");
+                try
+                {
+                    _service = GetService();
+                    var resp = _service.ChangeState(id, situacao).Result;                    
+                    if (resp)
+                    {
+                        response.Status = true;
+                        response.ResponseText = "OK";
+                        JsonResponse(response);
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                response.ResponseText = ex.Message;
+                catch (Exception ex)
+                {
+                    response.ResponseText = ex.Message;
+                }
             }
             return JsonResponse(response);
         }

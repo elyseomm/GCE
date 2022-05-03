@@ -70,6 +70,7 @@
     <Compile Include="Enums\EnumEstadoCivil.cs" />
     <Compile Include="Enums\EnumGenero.cs" />
     <Compile Include="Enums\EnumTipoCapital.cs" />
+    <Compile Include="Enums\EnumTipoPessoa.cs" />
     <Compile Include="Enums\EnumTipoEmpresa.cs" />
     <Compile Include="Enums\EnumPorteEmpresa.cs" />
     <Compile Include="Enums\EnumSupplierSituation.cs" />
