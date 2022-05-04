@@ -137,7 +137,10 @@ namespace CGEWebApp.Controllers
                 var tp = collection.GetValue("TipoPessoa").RawValue.ToInt();
                 if (tp == EnumTipoPessoa.PF.AsInt())
                 {
-                    var dtNasc = collection.GetValue("DtNascimento").AttemptedValue.Str();
+                    DateTime? dtNasc = null;
+                    var strDtNasc = collection.GetValue("DtNascimento").AttemptedValue.Str();
+                    if (strDtNasc.IsSet())
+                        dtNasc = DateTime.Parse(strDtNasc);
 
                     var pfDTO = new SupplierPFDTO()
                     {
@@ -149,14 +152,14 @@ namespace CGEWebApp.Controllers
                         Email = collection.GetValue("Email").AttemptedValue.Str(),
                         Situacao = EnumSupplierSituation.EmElaboracao.AsInt(),
                         
-                        EstadoCivil = collection.GetValue("EstadoCivil").AttemptedValue.ToInt(),
-                        Profissao = collection.GetValue("Profissao").AttemptedValue.Str(),
+                        EstadoCivil = collection.GetValue("EstadoCivil")?.AttemptedValue.ToInt(),
+                        Profissao = collection.GetValue("Profissao")?.AttemptedValue.Str(),
                         Fone1 = collection.GetValue("Fone1").AttemptedValue.Str(),
-                        Fone2 = collection.GetValue("Fone2").AttemptedValue.Str(),
-                        Fone3 = collection.GetValue("Fone3").AttemptedValue.Str(),
-                        DtNascimento = DateTime.Parse(dtNasc),
-                        Genero = collection.GetValue("Genero").AttemptedValue.ToInt(),
-                        Nacionalidade = collection.GetValue("Nacionalidade").AttemptedValue.Str()
+                        Fone2 = collection.GetValue("Fone2")?.AttemptedValue.Str(),
+                        Fone3 = collection.GetValue("Fone3")?.AttemptedValue.Str(),
+                        DtNascimento = dtNasc,
+                        Genero = collection.GetValue("Genero")?.AttemptedValue.ToInt(),
+                        Nacionalidade = collection.GetValue("Nacionalidade")?.AttemptedValue.Str()
                     };
 
                     ValidateSupplierFields(pfDTO);                    
@@ -181,30 +184,30 @@ namespace CGEWebApp.Controllers
                 {
                     DateTime? dtConst = null;
                     var strDtConst = collection.GetValue("DtConstituicao").AttemptedValue.Str();
-                    if (strDtConst.IsNotNull())
+                    if (strDtConst.IsSet())
                         dtConst = DateTime.Parse(strDtConst);
 
                     var pjDTO = new SupplierPJDTO()
                     {
-                        CPFCNPJ = collection.GetValue("CNPJ").AttemptedValue.Str(),
-                        RazaoSocial = collection.GetValue("RazaoSocial").AttemptedValue.Str(),
+                        CPFCNPJ = collection.GetValue("CNPJ")?.AttemptedValue.Str(),
+                        RazaoSocial = collection.GetValue("RazaoSocial")?.AttemptedValue.Str(),
                         TipoPessoa = tp,
                         Nacional = collection.GetValue("Nacional").AttemptedValue.ToInt(),
                         TipoEmpresa = collection.GetValue("TipoEmpresa").AttemptedValue.ToInt(),
-                        Email = collection.GetValue("Email").AttemptedValue.Str(),
+                        Email = collection.GetValue("Email")?.AttemptedValue.Str(),
                         Situacao = EnumSupplierSituation.EmElaboracao.AsInt(),
                         DtConstituicao = dtConst,
-                        Porte = collection.GetValue("Porte").AttemptedValue.ToInt(),
-                        NomeFantasia = collection.GetValue("NomeFantasia").AttemptedValue.Str(),
-                        WebSite = collection.GetValue("WebSite").AttemptedValue.Str(),
-                        Fone1 = collection.GetValue("Fone1").AttemptedValue.Str(),
-                        Fone2 = collection.GetValue("Fone2").AttemptedValue.Str(),
-                        Fone3 = collection.GetValue("Fone3").AttemptedValue.Str(),
+                        Porte = collection.GetValue("Porte")?.AttemptedValue.ToInt(),
+                        NomeFantasia = collection.GetValue("NomeFantasia")?.AttemptedValue.Str(),
+                        WebSite = collection.GetValue("WebSite")?.AttemptedValue.Str(),
+                        Fone1 = collection.GetValue("Fone1")?.AttemptedValue.Str(),
+                        Fone2 = collection.GetValue("Fone2")?.AttemptedValue.Str(),
+                        Fone3 = collection.GetValue("Fone3")?.AttemptedValue.Str(),
 
-                        CaracterizacaoCapital = collection.GetValue("CaracterizacaoCapital").AttemptedValue?.ToInt(),
+                        CaracterizacaoCapital = collection.GetValue("CaracterizacaoCapital")?.AttemptedValue?.ToInt(),
                         QtdQuota = collection.GetValue("QtdQuota").AttemptedValue?.ToDec(),
-                        VlrQuota = Utils.FrmDec(collection.GetValue("VlrQuota").AttemptedValue),
-                        CapitalSocial = Utils.FrmDec(collection.GetValue("CapitalSocial").AttemptedValue)
+                        VlrQuota = Utils.FrmDec(collection.GetValue("VlrQuota")?.AttemptedValue),
+                        CapitalSocial = Utils.FrmDec(collection.GetValue("CapitalSocial")?.AttemptedValue)
                     };
                     
                     ValidateSupplierFields(pjDTO);

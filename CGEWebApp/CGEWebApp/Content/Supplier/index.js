@@ -45,6 +45,7 @@ $(document).ready(() => {
 	})
 	
 	$("#add-btnSalvar").on('click', () => {
+		$('#add-alerts').empty().append('').html('')
 		InsertSupplier()
 	})
 
@@ -64,6 +65,7 @@ $(document).ready(() => {
 	});
 
 	$("#btn-edit-Salvar").on('click', () => {
+		$('#edit-alerts').empty().append('').html('')
 		SaveChangedSupplier()
 	})
 
@@ -123,6 +125,7 @@ GetSupplierByID = (id) => {
 
 	$('#alerts').html('')
 	$('#edit-alerts').html('')
+	$('#add-alerts').html('')
 
 	var url = "/Supplier/GetById" 
 	var params = {
@@ -328,6 +331,8 @@ GetComboLists = () => {
 
 ShowModalInsertSupplier = (response) => {
 
+	$('#add-alerts').html('')
+
 	$("#add-tipopessoa").val(0)
 	$("#add-tipopessoa").change()	
 	
@@ -456,10 +461,10 @@ InsertSupplier = () => {
 			};
 
 		$.post(url, params, function (response) {
-			if (data.Status === false) {
-				alertError(response.ResponseText)
+			if (response.Status === false) {
+				addAlertError(response.ResponseText)
 			} else {
-				alertSuccess(response.ResponseText)
+				addAlertSuccess(response.ResponseText)
 				$("#modal-supplier-add").modal("hide")
 			}
 		})
@@ -553,6 +558,17 @@ let editAlertSuccess = (message) => {
 	$('#edit-alerts').html('')
 	alertSuccessMessage("edit-alerts", message)
 	$('#edit-alerts').show()
+}
+
+let addAlertError = (message) => {
+	$('#add-alerts').html('')
+	alertErrorMessage("add-alerts", message)
+	$('#add-alerts').show()
+}
+let addAlertSuccess = (message) => {
+	$('#add-alerts').html('')
+	alertSuccessMessage("add-alerts", message)
+	$('#add-alerts').show()
 }
 
 

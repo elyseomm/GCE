@@ -13,11 +13,16 @@
                     <div class="col-md-5" style="margin-top: 10px">
                         <div class="btn-group btn-block">
                             <button class="button" id="add-btnVoltar" style="float: right;" data-dismiss="modal">Voltar</button>
-                            <button class="button" id="add-btnSalvar" style="float: right;">Salvar</button>                            
+                            <button class="button" id="add-btnSalvar" style="float: right;">Salvar</button>
                         </div>
                     </div>
                 </div>
+            </div>
 
+            <div class="row" style="clear: both; margin-top: 2%">
+                <div class="col-md-12">
+                    <div id="add-alerts" class="alert-danger;"></div>
+                </div>
             </div>
 
             <div class="modal-body">
@@ -25,23 +30,23 @@
 
                     <div class="row">
                         <div class="col-md-3">
-                            <label>Tipo de Pessoa:</label>                            
+                            <label>Tipo de Pessoa:</label>
                             <select id="add-tipopessoa" name="add-tipopessoa" class="form-control">
                                 <option value="0">Pessoa Física</option>
                                 <option value="1">Pessoa Jurídica</option>
                             </select>
                         </div>
-                        <div class="col-md-3">                            
+                        <div class="col-md-3">
                             <label>Nacional:</label>
                             <select id="add-nacional" name="add-nacional" class="form-control">
                                 <option value="1">Sim</option>
                                 <option value="0">Não</option>
                             </select>
-                        </div>                        
+                        </div>
                     </div>
 
                     <div id="add-detalhePF">
-                        
+
                         @* CPF - NOME - EMAIL *@
                         <div class="row">
                             <div class="col-md-12"><h4 class="modal-header"><b>Dados</b></h4></div>
@@ -63,14 +68,14 @@
                         @* ESTADO CIVIL - PROFISSAO - FONE1 - FONE2 - FONE3 *@
                         <div class="row" style="margin-top: 12px">
                             <div class="col-md-2">
-                                <label>Estado Civil:</label>                            
+                                <label>Estado Civil:</label>
                                 <select id="add-estadocivil" name="add-estadocivil" class="form-control"></select>
                             </div>
 
                             <div class="col-md-2">
                                 <label>Profissão:</label>
                                 <input id="add-profissao" name="add-profissao" class="form-control" />
-                            </div>                       
+                            </div>
 
                             <div class="col-md-2">
                                 <label>Fone1:</label>
@@ -105,7 +110,7 @@
                                 <input id="add-nacionalidade" name="add-nacionalidade" class="form-control" />
                             </div>
                         </div>
-                       
+
                     </div>
 
                     <div id="add-detalhePJ">
@@ -138,7 +143,7 @@
                                 <input id="add-dtConstituicao" name="add-dtConstituicao" class="form-control" />
                             </div>
                             <div class="col-md-4">
-                                <label>Porte:</label>                               
+                                <label>Porte:</label>
                                 <select id="add-porte" name="add-porte" class="form-control"></select>
                             </div>
 
@@ -195,7 +200,7 @@
 
                 </form>
             </div>
-            
+
         </div>
     </div>
 </div>
