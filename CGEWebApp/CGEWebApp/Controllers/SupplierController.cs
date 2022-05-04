@@ -240,13 +240,16 @@ namespace CGEWebApp.Controllers
                     SupplierPJDTO pjDTO = row.ParsePJ();
                     var respPJ = _service.SalvarPJ(pjDTO).Result;
 
+                    response.Status = true;
+                    response.ResponseText = "Fornecedor Salvo com sucesso!";
+                    response.Data = respPJ;
                     return JsonResponse(response);
                 }
 
             }
             catch (Exception ex)
             {
-                response.ResponseText = $"Erro ao alterar o Fornecedor. {ex.Message}";
+                response.ResponseText = ex.InnerException.Message;
             }
 
             return JsonResponse(response);

@@ -1,10 +1,13 @@
-﻿using CGE.Core;
+﻿using CGE.Api.Responses;
+using CGE.Core;
 using CGE.Core.DTO;
 using CGE.Core.Models;
 using CGE.Core.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 
 namespace CGE.Api.Controllers
@@ -39,20 +42,39 @@ namespace CGE.Api.Controllers
 
         [HttpPost]
         [Route("newpf")]
-        public ActionResult<SupplierPFDTO> NewSupplierPF(SupplierPFDTO pf)
+        public ResponseBase NewSupplierPF(SupplierPFDTO pf)
         {
-            var resp = _repo.NewPF(pf);
-            return new ObjectResult(resp);
+            var response = new ResponseBase();
+            try
+            {
+                var resp = _repo.NewPF(pf);
+                response.Status = true;
+                response.Data = resp;
+            }
+            catch (Exception ex)
+            {
+                response = ResponseBase.ResponseError(ex.Message);
+            }
+            return response;
         }
 
         [HttpPost]
         [Route("newpJ")]
-        public ActionResult<SupplierPJDTO> NewSupplierPJ(SupplierPJDTO pj)
+        public ResponseBase NewSupplierPJ(SupplierPJDTO pj)
         {
-            var resp = _repo.NewPJ(pj);
-            return new ObjectResult(resp);
+            var response = new ResponseBase();
+            try
+            {
+                var resp = _repo.NewPJ(pj);
+                response.Status = true;
+                response.Data = resp;
+            }
+            catch (Exception ex)
+            {
+                response = ResponseBase.ResponseError(ex.Message);
+            }
+            return response;
         }
-
 
         [HttpPut]
         [Route("ativar/{id}")]
@@ -72,18 +94,38 @@ namespace CGE.Api.Controllers
 
         [HttpPut]
         [Route("updatepf")]
-        public ActionResult<SupplierPFDTO> UpdateSupplierPF(SupplierPFDTO pf)
+        public ResponseBase UpdateSupplierPF(SupplierPFDTO pf)
         {
-            var resp = _repo.UpdatePF(pf);
-            return new ObjectResult(resp);
+            var response = new ResponseBase();
+            try
+            {
+                var resp = _repo.UpdatePF(pf);
+                response.Status = true;
+                response.Data = resp;
+            }
+            catch (Exception ex)
+            {
+                response = ResponseBase.ResponseError(ex.Message);
+            }
+            return response;
         }
 
         [HttpPut]
         [Route("updatepj")]
-        public ActionResult<SupplierPFDTO> UpdateSupplierPj(SupplierPJDTO pj)
+        public ResponseBase UpdateSupplierPj(SupplierPJDTO pj)
         {
-            var resp = _repo.UpdatePJ(pj);
-            return new ObjectResult(resp);
+            var response = new ResponseBase();
+            try
+            {
+                var resp = _repo.UpdatePJ(pj);
+                response.Status = true;
+                response.Data = resp;
+            }
+            catch (Exception ex)
+            {
+                response = ResponseBase.ResponseError(ex.Message);
+            }
+            return response;
         }
 
         [HttpDelete]

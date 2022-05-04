@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
+using WebCore.Responses;
 
 namespace WebCore.ClientHttp
 {
@@ -11,6 +14,7 @@ namespace WebCore.ClientHttp
         private string _pingRoute = string.Empty;
         private Dictionary<string, string> _headers { get; set; }
         private Dictionary<string, string> _values { get; set; }
+        public JObject JsonObj { get; set; }
 
         private const int TIMEOUT_MINUTES = 5;
         // * PING
@@ -137,64 +141,86 @@ namespace WebCore.ClientHttp
 
             return string.Empty;
         }
-        public async Task<string> DoPost(string routeUrl)
+        public async Task<ResponseBase> DoPost(string routeUrl)
         {
+            var response = new ResponseBase();
             try
             {
                 if (routeUrl.IsNotNull())
                 {
                     var strURL = string.Concat(_urlApi, "/", routeUrl);
-                    var content = new FormUrlEncodedContent(_values);
                     using (var client = new HttpClient())
                     {
+                        StringContent content = new StringContent(JsonObj.ToString(), Encoding.UTF8, "application/json");
                         var resp = client.PostAsync(strURL, content).Result;
                         if (resp.IsSuccessStatusCode)
                         {
                             var strResp = await resp.Content.ReadAsStringAsync();
-                            return strResp;
+                            {
+                                var jobj = Utils.ToJObj(strResp);
+                                if (jobj.IsNotNull())
+                                {
+                                    response.ResponseText = jobj.Value<string>("responseText");
+                                    response.Status = jobj.Value<bool>("status");
+                                    response.Data = jobj.Value<string>("data");
+                                }
+                            }
+                            return response;
                         }
                     }
                 }
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                throw exception;
+                response = ResponseBase.ResponseError(ex.Message);
             }
-
-            return string.Empty;
+            return response;
         }
 
-        public async Task<bool> DoPut(string routeUrl)
+        public async Task<ResponseBase> DoPut(string routeUrl)
         {
+            var response = new ResponseBase();
             try
             {
                 if (routeUrl.IsNotNull())
                 {
                     var strURL = string.Concat(_urlApi, "/", routeUrl);
-
-                    var content = new FormUrlEncodedContent(_values);
                     using (var client = new HttpClient())
                     {
-                        //var resp = await client.PutAsync(strURL, content);
+                        StringContent content = new StringContent(JsonObj.ToString(), Encoding.UTF8, "application/json");
                         var resp = client.PutAsync(strURL, content).Result;
                         if (resp.IsSuccessStatusCode)
                         {
                             var strResp = await resp.Content.ReadAsStringAsync();
-                            if (content.IsNull())
+                            if (strResp.IsSet())
                             {
-                                if (strResp.IsSet())
-                                return bool.Parse(strResp);
+                                if (content.IsNull())
+                                {
+                                    response.ResponseText = "OK";
+                                    response.Status = bool.Parse(strResp);
+                                }
+                                else
+                                {
+                                    var jobj = Utils.ToJObj(strResp);
+                                    if (jobj.IsNotNull())
+                                    {                                        
+                                        response.ResponseText = jobj.Value<string>("responseText");
+                                        response.Status = jobj.Value<bool>("status");
+                                        response.Data = jobj.Value<string>("data");
+                                    }
+                                }
+                                return response;
                             }
                         }
                     }
                 }
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                throw exception;
+                response = ResponseBase.ResponseError(ex.Message);
             }
 
-            return false;
+            return response;
         }
                 
         public async Task<bool> DoDelete(string routeUrl)

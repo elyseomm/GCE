@@ -189,32 +189,59 @@ namespace WebCore.Services
             {
                 var route = isNewPF ? POST_SUPPLIER_PF : PUT_SUPPLIER_PF;
 
-                var jObj = JObject.FromObject(dados);
+                _client.JsonObj = JObject.FromObject(dados);
 
-                _client.AddValue("data", jObj.ToString());
-                                
                 if (isNewPF)
                 {
-                    var respINS = await _client.DoPost(route);
-                    var jobj = Utils.ToJObj(respINS);
+                    var respINS = await _client.DoPost(route);                    
 
-                    if (jobj.IsNotNull())
-                    {
-
-                    }
+                    
                 }
                 else
                 {
                     var respUPD = await _client.DoPut(route);
+                    if (respUPD.Status == true)
+                    {
+                        var jobj = Utils.ToJObj(respUPD.Data.ToString());
+                        if (jobj.IsNotNull())
+                        {
+                            result = new SupplierPFDTO()
+                            {
+                                Id = jobj.Value<int>("id"),
+                                TipoPessoa = jobj.Value<int>("tipoPessoa"),
+                                TipoEmpresa = jobj.Value<int>("tipoEmpresa"),
+                                Nacional = jobj.Value<int>("nacional"),
+                                Situacao = jobj.Value<int>("situacao"),
 
+                                CPFCNPJ = jobj.Value<string>("cpfcnpj"),
+                                RazaoSocial = jobj.Value<string>("razaoSocial"),
+                                Fone1 = jobj.Value<string>("fone1"),
+                                Fone2 = jobj.Value<string>("fone2"),
+                                Fone3 = jobj.Value<string>("fone3"),
+                                Email = jobj.Value<string>("email"),
+
+                                DtAtualizacao = jobj.Value<DateTime>("dtAtualizacao"),
+                                
+                                #region Atributos Pessoa Física
+
+                                EstadoCivil = jobj.Value<int?>("estadoCivil"),
+                                Profissao = jobj.Value<string>("profissao"),
+                                DtNascimento = jobj.Value<DateTime?>("dtNascimento"),
+                                Genero = jobj.Value<int?>("genero"),
+                                Nacionalidade = jobj.Value<string>("nacionalidade")
+
+                                #endregion
+                            };
+                        }
+                    }
+                    else throw new Exception(respUPD.ResponseText);
                 }
                 return result;
             }
             catch (Exception ex)
             {
                 throw ex;
-            }
-            return result;
+            }            
         }
 
         public async Task<SupplierPJDTO> SalvarPJ(SupplierPJDTO dados, bool isNewPF = false)
@@ -224,24 +251,54 @@ namespace WebCore.Services
             {                
                 var route = isNewPF ? POST_SUPPLIER_PJ : PUT_SUPPLIER_PJ;
 
-                var jObj = JObject.FromObject(dados);
-
-                _client.AddValue("data", jObj.ToString());
+                _client.JsonObj = JObject.FromObject(dados);
 
                 if (isNewPF) { 
 
                     var respINS = await _client.DoPost(route);
-                    var jobj = Utils.ToJObj(respINS);
-
-                    if (jobj.IsNotNull())
-                    {
-
-                    }
+                    
                 }
                 else
                 {
                     var respUPD = await _client.DoPut(route);
+                    if (respUPD.Status == true)
+                    {
+                        var jobj = Utils.ToJObj(respUPD.Data.ToString());
+                        if (jobj.IsNotNull())
+                        {
+                            result = new SupplierPJDTO()
+                            {
+                                Id = jobj.Value<int>("id"),
+                                TipoPessoa = jobj.Value<int>("tipoPessoa"),
+                                TipoEmpresa = jobj.Value<int>("tipoEmpresa"),
+                                Nacional = jobj.Value<int>("nacional"),
+                                Situacao = jobj.Value<int>("situacao"),
 
+                                CPFCNPJ = jobj.Value<string>("cpfcnpj"),
+                                RazaoSocial = jobj.Value<string>("razaoSocial"),
+                                Fone1 = jobj.Value<string>("fone1"),
+                                Fone2 = jobj.Value<string>("fone2"),
+                                Fone3 = jobj.Value<string>("fone3"),
+                                Email = jobj.Value<string>("email"),
+
+                                DtAtualizacao = jobj.Value<DateTime>("dtAtualizacao"),
+
+                                #region Atributos Pessoa Juridica
+
+                                Porte = jobj.Value<int?>("porte"),
+                                CaracterizacaoCapital = jobj.Value<int?>("caracterizacaoCapital"),
+                                NomeFantasia = jobj.Value<string>("nomeFantasia"),
+                                WebSite = jobj.Value<string>("webSite"),
+                                QtdQuota = jobj.Value<decimal?>("qtdQuota"),
+                                VlrQuota = jobj.Value<decimal?>("vlrQuota"),
+                                CapitalSocial = jobj.Value<decimal?>("capitalSocial"),
+                                DtConstituicao = jobj.Value<DateTime?>("dtConstituicao"),
+
+                                #endregion                                
+                            };
+                        }
+                    }
+                    else throw new Exception(respUPD.ResponseText);
                 }
                 return result;
             }
@@ -249,7 +306,6 @@ namespace WebCore.Services
             {
                 throw ex;
             }
-            return result;
         }
 
         public async Task<bool> Delete(int id )
@@ -275,7 +331,7 @@ namespace WebCore.Services
 
                 //$"{DELETE_SUPPLIER}/{id}";
                 var alterou = await _client.DoPut(route);               
-                return alterou;
+                return alterou.Status;
             }
             catch (Exception ex)
             {

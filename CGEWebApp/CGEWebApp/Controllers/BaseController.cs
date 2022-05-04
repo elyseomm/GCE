@@ -25,7 +25,7 @@ namespace CGEWebApp.Controllers
         protected JsonResult JsonResponse(object obj)
         {
             return Json(obj, JsonRequestBehavior.AllowGet);
-        }       
+        }
        
         #region DOING MAPPER THINGS !!!
 

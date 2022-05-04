@@ -175,15 +175,15 @@ EditSupplier = (response) => {
 		$('#razaosocial').val(data.RazaoSocial)
 
 		$('#emailpf').val(data.Email).inputmask({ alias: "email" })
-		$('#emailpj').val(data.Email).inputmask({ alias: "email" })
+		$('#email').val(data.Email).inputmask({ alias: "email" })
 
 		$('#fone1pf').val(data.Fone1).inputmask("(99)9999[9]-9999")
 		$('#fone2pf').val(data.Fone2).inputmask("(99)9999[9]-9999")
 		$('#fone3pf').val(data.Fone3).inputmask("(99)9999[9]-9999")
 
-		$('#fone1pj').val(data.Fone1).inputmask("(99)9999[9]-9999")
-		$('#fone2pj').val(data.Fone2).inputmask("(99)9999[9]-9999")
-		$('#fone3pj').val(data.Fone3).inputmask("(99)9999[9]-9999")
+		$('#fone1').val(data.Fone1).inputmask("(99)9999[9]-9999")
+		$('#fone2').val(data.Fone2).inputmask("(99)9999[9]-9999")
+		$('#fone3').val(data.Fone3).inputmask("(99)9999[9]-9999")
 		//---------------------------------------------------------------
 
 		// Fill option select Tipo Empresas
@@ -519,16 +519,18 @@ SaveChangedSupplier = () => {
 			};
 
 		$.post(url, params, function (response) {
-			if (data.Status === false) {
-				alertError(response.ResponseText)
+
+			console.log(response)
+
+			if (response.Status === false) {
+				editAlertError(response.ResponseText)
 			} else {
-				alertSuccess(response.ResponseText)
+				editAlertSuccess(response.ResponseText)
 				$("#modal-supplier-add").modal("hide")
 			}
 		})
 	}
 }
-
 // * ALARMES
 let alertSuccess = (message) => {
 	$('#alerts').html('')
@@ -541,6 +543,18 @@ let alertError = (message) => {
 	alertErrorMessage("alerts", message)
 	$('#alerts').show()
 }
+
+let editAlertError = (message) => {
+	$('#edit-alerts').html('')
+	alertErrorMessage("edit-alerts", message)
+	$('#edit-alerts').show()
+}
+let editAlertSuccess = (message) => {
+	$('#edit-alerts').html('')
+	alertSuccessMessage("edit-alerts", message)
+	$('#edit-alerts').show()
+}
+
 
 function alertWarningMessage(idElement, msg) {
 	$('#' + idElement).prepend($(
