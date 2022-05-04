@@ -78,7 +78,7 @@ namespace CGE.Api.Controllers
 
         [HttpPut]
         [Route("ativar/{id}")]
-        public ActionResult<bool>ActivcateSupplier(int id)
+        public ActionResult<bool>ActivateSupplier(int id)
         {
             var resp = _repo.AtivarSupplier(id);
             return new ObjectResult(resp);
@@ -86,7 +86,7 @@ namespace CGE.Api.Controllers
 
         [HttpPut]
         [Route("desativar/{id}")]
-        public ActionResult<bool> DeactivcateSupplier(int id)
+        public ActionResult<bool> DeactivateSupplier(int id)
         {
             var resp = _repo.DesativarSupplier(id);
             return new ObjectResult(resp);
@@ -112,7 +112,7 @@ namespace CGE.Api.Controllers
 
         [HttpPut]
         [Route("updatepj")]
-        public ResponseBase UpdateSupplierPj(SupplierPJDTO pj)
+        public ResponseBase UpdateSupplierPJ(SupplierPJDTO pj)
         {
             var response = new ResponseBase();
             try

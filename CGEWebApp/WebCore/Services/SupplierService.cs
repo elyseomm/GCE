@@ -212,15 +212,14 @@ namespace WebCore.Services
                                 TipoEmpresa = jobj.Value<int>("tipoEmpresa"),
                                 Nacional = jobj.Value<int>("nacional"),
                                 Situacao = jobj.Value<int>("situacao"),
-
                                 CPFCNPJ = jobj.Value<string>("cpfcnpj"),
                                 RazaoSocial = jobj.Value<string>("razaoSocial"),
                                 Fone1 = jobj.Value<string>("fone1"),
+                                DtAtualizacao = jobj.Value<DateTime>("dtAtualizacao"),
+
                                 Fone2 = jobj.Value<string>("fone2"),
                                 Fone3 = jobj.Value<string>("fone3"),
                                 Email = jobj.Value<string>("email"),
-
-                                DtAtualizacao = jobj.Value<DateTime>("dtAtualizacao"),
                                 
                                 #region Atributos Pessoa Física
 

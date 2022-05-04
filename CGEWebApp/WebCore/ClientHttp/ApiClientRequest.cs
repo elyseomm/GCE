@@ -162,7 +162,7 @@ namespace WebCore.ClientHttp
                                 {
                                     response.ResponseText = jobj.Value<string>("responseText");
                                     response.Status = jobj.Value<bool>("status");
-                                    response.Data = jobj.Value<string>("data");
+                                    response.Data = jobj.Value<JToken>("data");
                                 }
                             }
                             return response;
@@ -206,7 +206,7 @@ namespace WebCore.ClientHttp
                                     {                                        
                                         response.ResponseText = jobj.Value<string>("responseText");
                                         response.Status = jobj.Value<bool>("status");
-                                        response.Data = jobj.Value<string>("data");
+                                        response.Data = jobj.Value<JToken>("data");
                                     }
                                 }
                                 return response;

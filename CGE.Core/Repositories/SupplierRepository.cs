@@ -159,7 +159,7 @@ namespace CGE.Core.Repositories
 
                     ValidateSupplierFields(pj);
 
-                    if (pj.CapitalSocial < 0)
+                    if (pj.CapitalSocial <= 0)
                         throw new Exception("Preencha o Capital Social. Campo requerido!");
 
                     #endregion

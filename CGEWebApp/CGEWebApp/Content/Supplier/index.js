@@ -122,6 +122,7 @@ EnableButons = (situacao) => {
 GetSupplierByID = (id) => {
 
 	$('#alerts').html('')
+	$('#edit-alerts').html('')
 
 	var url = "/Supplier/GetById" 
 	var params = {
@@ -416,7 +417,7 @@ InsertSupplier = () => {
 
 	if (resp == true) {
 
-		let tpPessoa = $("#add-tipopessoa").val()
+		let tpPessoa = parseInt($("#add-tipopessoa").val())
 
 		var params = (tpPessoa == pf) ?
 			{
@@ -474,28 +475,27 @@ SaveChangedSupplier = () => {
 
 	if (resp == true) {
 
-		let tpPessoa = $("#tipopessoa").val()
-
+		let tpPessoa = parseInt($("#id-tipopessoa").val())
 		var params = (tpPessoa == pf) ?
-			{
-				ID: id,
-				CPF: $('#cpf').val(),
-				Nome: $('#nome').val(),
-				Email: $('#emailpf').val(),
-				TipoPessoa: tpPessoa,
-				Nacional: $('#nacional').val(),
-				TipoEmpresa: $('#tipoempresapf').val(),
+		{
+			ID: id,
+			CPF: $('#cpf').val(),
+			Nome: $('#nome').val(),
+			Email: $('#emailpf').val(),
+			TipoPessoa: tpPessoa,
+			Nacional: $('#nacional').val(),
+			TipoEmpresa: $('#tipoempresapf').val(),
 
-				EstadoCivil: $('#estadocivil').val(),
-				Profissao: $('#profissao').val(),
-				Fone1: $('#fone1pf').val(),
-				Fone2: $('#fone2pf').val(),
-				Fone3: $('#fone3pf').val(),
-				DtNascimento: $('#dtnascimento').val(),
-				Genero: $('#genero').val(),
-				Nacionalidade: $('#nacionalidade').val(),
-			} :
-			{
+			EstadoCivil: $('#estadocivil').val(),
+			Profissao: $('#profissao').val(),
+			Fone1: $('#fone1pf').val(),
+			Fone2: $('#fone2pf').val(),
+			Fone3: $('#fone3pf').val(),
+			DtNascimento: $('#dtnascimento').val(),
+			Genero: $('#genero').val(),
+			Nacionalidade: $('#nacionalidade').val(),
+		} :
+		{
 				ID: id,
 				CNPJ: $('#cnpj').val(),
 				RazaoSocial: $('#razaosocial').val(),
@@ -516,7 +516,7 @@ SaveChangedSupplier = () => {
 				QtdQuota: $('#qtdquota').val(),
 				VlrQuota: $('#vlrquota').val(),
 				CapitalSocial: $('#capitalsocial').val(),
-			};
+		};
 
 		$.post(url, params, function (response) {
 

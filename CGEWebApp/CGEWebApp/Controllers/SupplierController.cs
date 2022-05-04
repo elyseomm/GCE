@@ -31,6 +31,34 @@ namespace CGEWebApp.Controllers
             return _service;
         }
 
+        private void ValidateSupplierFields(ISupplierDTO sup)
+        {
+            #region Field Validation
+
+            if (sup.TipoPessoa < 0)
+                throw new Exception("Preencha o Tipo Pessoa. Campo requerido!");
+
+            if (sup.Nacional < 0)
+                throw new Exception("Preencha o Nacional. Campo requerido!");
+
+            if (string.IsNullOrWhiteSpace(sup.CPFCNPJ))
+                throw new Exception("Preencha o CPF. Campo requerido!");
+
+            if (string.IsNullOrWhiteSpace(sup.RazaoSocial))
+                throw new Exception("Preencha o Nome. Campo requerido!");
+
+            if (string.IsNullOrWhiteSpace(sup.Email))
+                throw new Exception("Preencha o Email. Campo requerido!");
+
+            if (string.IsNullOrWhiteSpace(sup.Fone1))
+                throw new Exception("Preencha o Fone1. Campo requerido!");
+
+            if (sup.TipoEmpresa < 0)
+                throw new Exception("Preencha o Tipo Empresa. Campo requerido!");
+
+            #endregion
+        }
+
         // GET: Supplier
         public ActionResult Index(int page = 1)
         {
@@ -130,11 +158,24 @@ namespace CGEWebApp.Controllers
                         Genero = collection.GetValue("Genero").AttemptedValue.ToInt(),
                         Nacionalidade = collection.GetValue("Nacionalidade").AttemptedValue.Str()
                     };
-                    var respPF = _service.SalvarPF(pfDTO).Result;
-                    
+
+                    ValidateSupplierFields(pfDTO);                    
+
+                    if (string.IsNullOrWhiteSpace(pfDTO.Profissao))
+                        throw new Exception("Preencha o Profissão. Campo requerido!");
+
+                    if (!pfDTO.DtNascimento.HasValue)
+                        throw new Exception("Preencha a Data de Nascimento. Campo requerido!");
+
+                    if (pfDTO.Genero < 0)
+                        throw new Exception("Preencha o Gênero. Campo requerido!");
+
+                    var respPF = _service.SalvarPF(pfDTO, isNewPF: true).Result;
+
+                    response.Status = true;
                     response.ResponseText = "Fornecedor Salvo com sucesso!";
                     response.Data = respPF;
-                    response.Status = true;
+                    
                 }
                 else  // PESSOA JURIDICA
                 {
@@ -165,11 +206,17 @@ namespace CGEWebApp.Controllers
                         VlrQuota = Utils.FrmDec(collection.GetValue("VlrQuota").AttemptedValue),
                         CapitalSocial = Utils.FrmDec(collection.GetValue("CapitalSocial").AttemptedValue)
                     };
-                    var respPJ = _service.SalvarPJ(pjDTO).Result;
+                    
+                    ValidateSupplierFields(pjDTO);
 
+                    if (pjDTO.CapitalSocial < 0)
+                        throw new Exception("Preencha o Capital Social. Campo requerido!");
+
+                    var respPJ = _service.SalvarPJ(pjDTO, isNewPF: true).Result;
+
+                    response.Status = true;
                     response.ResponseText = "Fornecedor Salvo com sucesso!";
                     response.Data = respPJ;
-                    response.Status = true;
                 }
             }
             catch ( Exception ex)
@@ -193,28 +240,38 @@ namespace CGEWebApp.Controllers
                 if (row.TipoPessoa == EnumTipoPessoa.PF.AsInt())
                 {
                     DateTime? dtNasc = null;
-                    var strDtNasc = collection.GetValue("DtConstituicao").AttemptedValue.Str();
-                    if (strDtNasc.IsNotNull())
+                    var strDtNasc = collection.GetValue("DtNascimento")?.AttemptedValue.Str();
+                    if (strDtNasc.IsSet())
                         dtNasc = DateTime.Parse(strDtNasc);
-
-                    row.CPFCNPJ = collection.GetValue("CNPJ").AttemptedValue.Str();
-                    row.RazaoSocial = collection.GetValue("RazaoSocial").AttemptedValue.Str();
+                    
+                    row.CPFCNPJ = collection.GetValue("CPF").AttemptedValue.Str();
+                    row.RazaoSocial = collection.GetValue("Nome").AttemptedValue.Str();
                     row.Nacional = collection.GetValue("Nacional").AttemptedValue.ToInt();
                     row.TipoEmpresa = collection.GetValue("TipoEmpresa").AttemptedValue.ToInt();
                     row.Email = collection.GetValue("Email").AttemptedValue.Str();
 
+                    row.Fone1 = collection.GetValue("Fone1").AttemptedValue.Str();
+                    row.Fone2 = collection.GetValue("Fone2")?.AttemptedValue.Str();
+                    row.Fone3 = collection.GetValue("Fone3")?.AttemptedValue.Str();
+
                     row.DtNascimento = dtNasc;
+                    row.EstadoCivil = collection.GetValue("EstadoCivil")?.AttemptedValue.ToInt();
+                    row.Genero = collection.GetValue("Genero")?.AttemptedValue.ToInt();
+                    row.Profissao = collection.GetValue("Profissao")?.AttemptedValue.Str();
+                    row.Nacionalidade = collection.GetValue("Nacionalidade")?.AttemptedValue.Str();
 
                     SupplierPFDTO pfDTO = row.ParsePF();
                     var respPF = _service.SalvarPF(pfDTO).Result;
-
+                    response.Status = true;
+                    response.ResponseText = "Fornecedor Salvo com sucesso!";
+                    response.Data = respPF;
                     return JsonResponse(response);
                 }
                 else
                 {
                     DateTime? dtConst = null;
                     var strDtConst = collection.GetValue("DtConstituicao").AttemptedValue.Str();
-                    if (strDtConst.IsNotNull())
+                    if (strDtConst.IsSet())
                         dtConst = DateTime.Parse(strDtConst);
 
                     row.CPFCNPJ = collection.GetValue("CNPJ").AttemptedValue.Str();
@@ -249,7 +306,7 @@ namespace CGEWebApp.Controllers
             }
             catch (Exception ex)
             {
-                response.ResponseText = ex.InnerException.Message;
+                response.ResponseText = ex.InnerException?.Message;
             }
 
             return JsonResponse(response);
