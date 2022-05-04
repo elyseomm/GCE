@@ -1,5 +1,4 @@
 ﻿using System;
-using WebCore.DTO;
 using WebCore.Enums;
 using WebCore.Extensions;
 
@@ -42,31 +41,112 @@ namespace WebCore.DTO
         public string Nacionalidade { get; set; }
 
         #endregion
+        
+        [NoMap]
+        //public string GetTipoPessoa => 
+        public string GetTipoPessoa { get { return _GetTipoPessoa(); } }
 
-        public string GetTipoPessoa => TipoPessoa == 0 ? "Pessoa Física" : "Pessoa Jurídica";
-
-        public string GetNacional => Nacional == 1 ? "Sim" : "Não"; 
-
-        public string GetSituacao { 
-            get { 
-                return Situacao.ToEnum<EnumSupplierSituation>().GetDescription();
-            } }
-
-        public string GetTipoEmpresa 
+        private string _GetTipoPessoa()
         {
-            get
-            {
-                return TipoEmpresa.ToEnum<EnumPorteEmpresa>().GetDescription();
-            }
+            return TipoPessoa == 0 ? "Pessoa Física" : "Pessoa Jurídica";
         }
 
-        public string GetPorte
+        [NoMap]
+        //public string GetNacional => Nacional == 1 ? "Sim" : "Não";
+        public string GetNacional { get { return _GetNacional(); } }
+
+        private string _GetNacional()
         {
-            get
-            {
-                return Porte?.ToEnum<EnumPorteEmpresa>().GetDescription();
-            }
+            return Nacional == 1 ? "Sim" : "Não";
         }
 
+        [NoMap]
+        //public string GetSituacao => Situacao.ToEnum<EnumSupplierSituation>().GetDescription();
+        public string GetSituacao { get { return _GetSituacao(); } }
+
+        private string _GetSituacao()
+        {
+            return Situacao.ToEnum<EnumSupplierSituation>().GetDescription();
+        }
+
+        [NoMap]
+        //public string GetTipoEmpresa => TipoEmpresa.ToEnum<EnumPorteEmpresa>().GetDescription();
+        public string GetTipoEmpresa { get { return _GetTipoEmpresa(); } }
+
+        private string _GetTipoEmpresa()
+        {
+            return TipoEmpresa.ToEnum<EnumPorteEmpresa>().GetDescription();
+        }        
+        
+        [NoMap]
+        //public string GetPorte => Porte?.ToEnum<EnumPorteEmpresa>().GetDescription();
+        public string GetPorte { get { return _GetPorte(); } }
+        private string _GetPorte()
+        {
+            return Porte?.ToEnum<EnumPorteEmpresa>().GetDescription();
+        }
+
+        public SupplierPFDTO ParsePF()
+        {
+            return ParsePF(this);
+        }
+
+        public SupplierPJDTO ParsePJ()
+        {
+            return ParsePJ(this);
+        }
+
+        public static SupplierPFDTO ParsePF(SupplierDTO dto)
+        {
+            return new SupplierPFDTO()
+            {
+                Id = dto.Id,
+                CPFCNPJ = dto.CPFCNPJ,
+                RazaoSocial = dto.RazaoSocial,
+                TipoPessoa = dto.TipoPessoa,
+                TipoEmpresa = dto.TipoEmpresa,
+                Fone1 = dto.Fone1,
+                Fone2 = dto.Fone2,
+                Fone3 = dto.Fone3,
+                Email = dto.Email,
+                Nacional = dto.Nacional,
+                Situacao = dto.Situacao,
+                DtAtualizacao = dto.DtAtualizacao,
+
+                EstadoCivil = dto.EstadoCivil,
+                Profissao = dto.Profissao,
+                DtNascimento = dto.DtNascimento,
+                Genero = dto.Genero,
+                Nacionalidade = dto.Nacionalidade,
+            };
+        }
+
+        public static SupplierPJDTO ParsePJ(SupplierDTO dto)
+        {
+            return new SupplierPJDTO()
+            {
+                Id = dto.Id,
+                CPFCNPJ = dto.CPFCNPJ,
+                RazaoSocial = dto.RazaoSocial,
+                TipoPessoa = dto.TipoPessoa,
+                TipoEmpresa = dto.TipoEmpresa,
+                Fone1 = dto.Fone1,
+                Fone2 = dto.Fone2,
+                Fone3 = dto.Fone3,
+                Email = dto.Email,
+                Nacional = dto.Nacional,
+                Situacao = dto.Situacao,
+                DtAtualizacao = dto.DtAtualizacao,
+
+                NomeFantasia = dto.NomeFantasia,
+                DtConstituicao = dto.DtConstituicao,
+                Porte = dto.Porte,
+                WebSite = dto.WebSite,
+                CaracterizacaoCapital = dto.CaracterizacaoCapital,
+                QtdQuota = dto.QtdQuota,
+                VlrQuota = dto.VlrQuota,
+                CapitalSocial = dto.CapitalSocial,
+            };
+        }
     }
 }

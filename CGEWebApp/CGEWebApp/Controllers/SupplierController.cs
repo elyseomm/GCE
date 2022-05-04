@@ -78,56 +78,178 @@ namespace CGEWebApp.Controllers
             return JsonResponse(response);
         }
 
-        // POST: Supplier/Create
-        [HttpPost]
-        public ActionResult CreatePF(FormCollection collection)
+        public ActionResult GetComboLists()
         {
-            try
-            {
-                var newPF = new SupplierPFDTO();
+            var tipoEmpresaList = Tool.GetTipoEmpresasList();
+            var porteList = Tool.GetPorteEmpresasList();
+            var tipoCapitalList = Tool.GetTipoCapitalList();
+            var generoList = Tool.GetGeneroList();
+            var estCivilList = Tool.GetEstadoCivilList();
 
-                _service = GetService();
-                var row = _service.SalvarPF(newPF);
-
-                return RedirectToAction("Index");
-            }
-            catch
+            var response = new ResponseBase(new
             {
-                return View();
-            }
+                lstTpEmpresas = tipoEmpresaList,
+                lstPorteEmpresas = porteList,
+                lstCaractCapital = tipoCapitalList,
+                lstGenero = generoList,
+                lstEstCivil = estCivilList,
+            });
+            return JsonResponse(response);
         }
 
-        
-
-        // POST: Supplier/Edit/5
+        // POST: Supplier/Create
         [HttpPost]
-        public ActionResult EditPF(int id, FormCollection collection)
+        public ActionResult Create(FormCollection collection)
         {
+            var response = new ResponseBase();
             try
             {
                 _service = GetService();
-                var row = _service.GetById(id).Result;
 
+                var tp = collection.GetValue("TipoPessoa").RawValue.ToInt();
+                if (tp == EnumTipoPessoa.PF.AsInt())
+                {
+                    var dtNasc = collection.GetValue("DtNascimento").AttemptedValue.Str();
+
+                    var pfDTO = new SupplierPFDTO()
+                    {
+                        CPFCNPJ = collection.GetValue("CPF").AttemptedValue.Str(),
+                        RazaoSocial = collection.GetValue("Nome").AttemptedValue.Str(),
+                        TipoPessoa = tp,
+                        Nacional = collection.GetValue("Nacional").AttemptedValue.ToInt(),
+                        TipoEmpresa = collection.GetValue("TipoEmpresa").AttemptedValue.ToInt(),
+                        Email = collection.GetValue("Email").AttemptedValue.Str(),
+                        Situacao = EnumSupplierSituation.EmElaboracao.AsInt(),
+                        
+                        EstadoCivil = collection.GetValue("EstadoCivil").AttemptedValue.ToInt(),
+                        Profissao = collection.GetValue("Profissao").AttemptedValue.Str(),
+                        Fone1 = collection.GetValue("Fone1").AttemptedValue.Str(),
+                        Fone2 = collection.GetValue("Fone2").AttemptedValue.Str(),
+                        Fone3 = collection.GetValue("Fone3").AttemptedValue.Str(),
+                        DtNascimento = DateTime.Parse(dtNasc),
+                        Genero = collection.GetValue("Genero").AttemptedValue.ToInt(),
+                        Nacionalidade = collection.GetValue("Nacionalidade").AttemptedValue.Str()
+                    };
+                    var respPF = _service.SalvarPF(pfDTO).Result;
+                    
+                    response.ResponseText = "Fornecedor Salvo com sucesso!";
+                    response.Data = respPF;
+                    response.Status = true;
+                }
+                else  // PESSOA JURIDICA
+                {
+                    DateTime? dtConst = null;
+                    var strDtConst = collection.GetValue("DtConstituicao").AttemptedValue.Str();
+                    if (strDtConst.IsNotNull())
+                        dtConst = DateTime.Parse(strDtConst);
+
+                    var pjDTO = new SupplierPJDTO()
+                    {
+                        CPFCNPJ = collection.GetValue("CNPJ").AttemptedValue.Str(),
+                        RazaoSocial = collection.GetValue("RazaoSocial").AttemptedValue.Str(),
+                        TipoPessoa = tp,
+                        Nacional = collection.GetValue("Nacional").AttemptedValue.ToInt(),
+                        TipoEmpresa = collection.GetValue("TipoEmpresa").AttemptedValue.ToInt(),
+                        Email = collection.GetValue("Email").AttemptedValue.Str(),
+                        Situacao = EnumSupplierSituation.EmElaboracao.AsInt(),
+                        DtConstituicao = dtConst,
+                        Porte = collection.GetValue("Porte").AttemptedValue.ToInt(),
+                        NomeFantasia = collection.GetValue("NomeFantasia").AttemptedValue.Str(),
+                        WebSite = collection.GetValue("WebSite").AttemptedValue.Str(),
+                        Fone1 = collection.GetValue("Fone1").AttemptedValue.Str(),
+                        Fone2 = collection.GetValue("Fone2").AttemptedValue.Str(),
+                        Fone3 = collection.GetValue("Fone3").AttemptedValue.Str(),
+
+                        CaracterizacaoCapital = collection.GetValue("CaracterizacaoCapital").AttemptedValue?.ToInt(),
+                        QtdQuota = collection.GetValue("QtdQuota").AttemptedValue?.ToDec(),
+                        VlrQuota = Utils.FrmDec(collection.GetValue("VlrQuota").AttemptedValue),
+                        CapitalSocial = Utils.FrmDec(collection.GetValue("CapitalSocial").AttemptedValue)
+                    };
+                    var respPJ = _service.SalvarPJ(pjDTO).Result;
+
+                    response.ResponseText = "Fornecedor Salvo com sucesso!";
+                    response.Data = respPJ;
+                    response.Status = true;
+                }
+            }
+            catch ( Exception ex)
+            {
+                response = ResponseBase.ResponseError(ex.Message);
+            }
+            return JsonResponse(response);
+        }
+        
+        // POST: Supplier/Edit/5
+        [HttpPost]
+        public ActionResult Edit(FormCollection collection)
+        {
+            var response = ResponseBase.ResponseError("Erro ao alterar o Fornecedor.");
+            try
+            {
+                _service = GetService();
+
+                var id = collection.GetValue("id").AttemptedValue.ToInt();
+                var row = _service.GetById(id).Result;
                 if (row.TipoPessoa == EnumTipoPessoa.PF.AsInt())
                 {
-                    SupplierPFDTO pfDTO = MapToDTO<SupplierPFDTO>(pfDTOMapConfig, row);
+                    DateTime? dtNasc = null;
+                    var strDtNasc = collection.GetValue("DtConstituicao").AttemptedValue.Str();
+                    if (strDtNasc.IsNotNull())
+                        dtNasc = DateTime.Parse(strDtNasc);
+
+                    row.CPFCNPJ = collection.GetValue("CNPJ").AttemptedValue.Str();
+                    row.RazaoSocial = collection.GetValue("RazaoSocial").AttemptedValue.Str();
+                    row.Nacional = collection.GetValue("Nacional").AttemptedValue.ToInt();
+                    row.TipoEmpresa = collection.GetValue("TipoEmpresa").AttemptedValue.ToInt();
+                    row.Email = collection.GetValue("Email").AttemptedValue.Str();
+
+                    row.DtNascimento = dtNasc;
+
+                    SupplierPFDTO pfDTO = row.ParsePF();
                     var respPF = _service.SalvarPF(pfDTO).Result;
 
-                    return RedirectToAction("Index");
+                    return JsonResponse(response);
                 }
                 else
                 {
-                    SupplierPJDTO pjDTO = MapToDTO<SupplierPJDTO>(pjDTOMapConfig, row);
+                    DateTime? dtConst = null;
+                    var strDtConst = collection.GetValue("DtConstituicao").AttemptedValue.Str();
+                    if (strDtConst.IsNotNull())
+                        dtConst = DateTime.Parse(strDtConst);
+
+                    row.CPFCNPJ = collection.GetValue("CNPJ").AttemptedValue.Str();
+                    row.RazaoSocial = collection.GetValue("RazaoSocial").AttemptedValue.Str();
+                    row.Nacional = collection.GetValue("Nacional").AttemptedValue.ToInt();
+                    row.TipoEmpresa = collection.GetValue("TipoEmpresa").AttemptedValue.ToInt();
+                    row.Email = collection.GetValue("Email").AttemptedValue.Str();
+                    
+                    row.Fone1 = collection.GetValue("Fone1").AttemptedValue.Str();
+                    row.Fone2 = collection.GetValue("Fone2").AttemptedValue.Str();
+                    row.Fone3 = collection.GetValue("Fone3").AttemptedValue.Str();
+
+                    row.WebSite = collection.GetValue("WebSite").AttemptedValue.Str();
+                    row.DtConstituicao = dtConst;
+                    row.NomeFantasia = collection.GetValue("NomeFantasia").AttemptedValue.Str();
+                    row.Porte = collection.GetValue("Porte").AttemptedValue.ToInt();
+
+                    row.CaracterizacaoCapital = collection.GetValue("CaracterizacaoCapital").AttemptedValue?.ToInt();
+                    row.QtdQuota = collection.GetValue("QtdQuota").AttemptedValue?.ToDec();
+                    row.VlrQuota = Utils.FrmDec(collection.GetValue("VlrQuota").AttemptedValue);
+                    row.CapitalSocial = Utils.FrmDec(collection.GetValue("CapitalSocial").AttemptedValue);
+
+                    SupplierPJDTO pjDTO = row.ParsePJ();
                     var respPJ = _service.SalvarPJ(pjDTO).Result;
 
-                    return RedirectToAction("Index");
+                    return JsonResponse(response);
                 }
 
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                response.ResponseText = $"Erro ao alterar o Fornecedor. {ex.Message}";
             }
+
+            return JsonResponse(response);
         }
 
         // POST: Supplier/Delete/5
@@ -137,20 +259,10 @@ namespace CGEWebApp.Controllers
             var response = ResponseBase.ResponseError("Fornecedor Ativado! Exclusão não permitida.");
             try
             {
-                //_service = GetService();
-                //var row = _service.GetById(id).Result;
-
-                //if ((row.Situacao == (int)EnumSupplierSituation.Desativado) ||
-                //    (row.Situacao == (int)EnumSupplierSituation.EmElaboracao))
-                //{
-                //    _service.Delete(row.Id);
-                //    return RedirectToAction("Index");
-                //}
-
                 _service = GetService();
-                var resp = _service.Delete(id).Result;
-                if (resp)
-                    return RedirectToAction("Index");
+                response.Status = _service.Delete(id).Result;
+                if (response.Status)
+                    response.ResponseText = "OK";                
             }
             catch( Exception ex)
             {
@@ -166,20 +278,13 @@ namespace CGEWebApp.Controllers
             var response = ResponseBase.ResponseError($"Fornecedor em Elaboração!");
 
             if (situacao > EnumSupplierSituation.EmElaboracao.AsInt())
-            {
-                var tpStatus = situacao == EnumSupplierSituation.Ativado.AsInt() ? "Ativado" : "Desativado";
-
-                response = ResponseBase.ResponseError($"Fornecedor já está {tpStatus}!");
+            {                
                 try
                 {
                     _service = GetService();
-                    var resp = _service.ChangeState(id, situacao).Result;                    
-                    if (resp)
-                    {
-                        response.Status = true;
+                    response.Status = _service.ChangeState(id, situacao).Result;                    
+                    if (response.Status)                   
                         response.ResponseText = "OK";
-                        JsonResponse(response);
-                    }
                 }
                 catch (Exception ex)
                 {

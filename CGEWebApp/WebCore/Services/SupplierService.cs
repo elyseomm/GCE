@@ -182,25 +182,33 @@ namespace WebCore.Services
             return result;
         }
 
-        public async Task<SupplierPFDTO> SalvarPF(SupplierPFDTO dados)
+        public async Task<SupplierPFDTO> SalvarPF(SupplierPFDTO dados, bool isNewPF = false)
         {
             SupplierPFDTO result = null;
             try
             {
-                var route = $"{POST_SUPPLIER_PF}";
+                var route = isNewPF ? POST_SUPPLIER_PF : PUT_SUPPLIER_PF;
 
                 var jObj = JObject.FromObject(dados);
 
                 _client.AddValue("data", jObj.ToString());
-                
-                var jrows = await _client.DoPost(route);
-
-                var jobj = Utils.ToJObj(jrows);
-
-                if (jobj.IsNotNull())
+                                
+                if (isNewPF)
                 {
+                    var respINS = await _client.DoPost(route);
+                    var jobj = Utils.ToJObj(respINS);
+
+                    if (jobj.IsNotNull())
+                    {
+
+                    }
+                }
+                else
+                {
+                    var respUPD = await _client.DoPut(route);
 
                 }
+                return result;
             }
             catch (Exception ex)
             {
@@ -209,25 +217,33 @@ namespace WebCore.Services
             return result;
         }
 
-        public async Task<SupplierPJDTO> SalvarPJ(SupplierPJDTO dados)
+        public async Task<SupplierPJDTO> SalvarPJ(SupplierPJDTO dados, bool isNewPF = false)
         {
             SupplierPJDTO result = null;
             try
-            {
-                var route = $"{POST_SUPPLIER_PJ}";
+            {                
+                var route = isNewPF ? POST_SUPPLIER_PJ : PUT_SUPPLIER_PJ;
 
                 var jObj = JObject.FromObject(dados);
 
                 _client.AddValue("data", jObj.ToString());
 
-                var jrows = await _client.DoPost(route);
+                if (isNewPF) { 
 
-                var jobj = Utils.ToJObj(jrows);
+                    var respINS = await _client.DoPost(route);
+                    var jobj = Utils.ToJObj(respINS);
 
-                if (jobj.IsNotNull())
+                    if (jobj.IsNotNull())
+                    {
+
+                    }
+                }
+                else
                 {
+                    var respUPD = await _client.DoPut(route);
 
                 }
+                return result;
             }
             catch (Exception ex)
             {

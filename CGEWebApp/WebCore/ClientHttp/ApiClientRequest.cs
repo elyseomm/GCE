@@ -147,7 +147,7 @@ namespace WebCore.ClientHttp
                     var content = new FormUrlEncodedContent(_values);
                     using (var client = new HttpClient())
                     {
-                        var resp = await client.PostAsync(strURL, content);
+                        var resp = client.PostAsync(strURL, content).Result;
                         if (resp.IsSuccessStatusCode)
                         {
                             var strResp = await resp.Content.ReadAsStringAsync();
@@ -180,8 +180,11 @@ namespace WebCore.ClientHttp
                         if (resp.IsSuccessStatusCode)
                         {
                             var strResp = await resp.Content.ReadAsStringAsync();
-                            if (strResp.IsSet())
+                            if (content.IsNull())
+                            {
+                                if (strResp.IsSet())
                                 return bool.Parse(strResp);
+                            }
                         }
                     }
                 }

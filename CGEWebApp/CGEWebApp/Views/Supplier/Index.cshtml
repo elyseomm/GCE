@@ -55,119 +55,123 @@
 
                 @foreach (var item in Model)
                 {
-                    //var status = item.ACTIVE == 1 ? "Yes" : "No";
-                    //var classStatus = item.ACTIVE == 1 ? "label label-success" : "label label-danger";
-                    //var strProject = item.Project != null ? item.Project.PROJECT_CODE : "";
+
+                    var classStatus =
+                        item.Situacao == 0 ? "label label-default" :
+                        item.Situacao == 1 ? "label label-success" :
+                        item.Situacao == 2 ? "label label-danger" : "";
+
+                    var sitid = $"sit{item.Id}";
+
                     <tr>
                         <td>@item.Id</td>
-                        <td>
-                            @Html.DisplayTextFor(m => item.GetTipoPessoa)
+                        <td>@Html.DisplayTextFor(m => item.GetTipoPessoa)</td>
+                        <td>@Html.DisplayTextFor(m => item.GetNacional)</td>
+                        <td>@Html.DisplayTextFor(m => item.CPFCNPJ)</td>
+                        <td>@Html.DisplayTextFor(m => item.RazaoSocial)</td>
+                        <td>@Html.DisplayTextFor(m => item.GetPorte)</td>
+                        <td style="text-align: center">
+                            <input id="@sitid" type="hidden" value="@item.Situacao" />
+                            @*@Html.DisplayTextFor(m => item.GetSituacao, new { class="@classStatus" })*@
+                            <span class="@classStatus">@item.GetSituacao</span>
                         </td>
-                        <td>
-                            @Html.DisplayTextFor(m => item.GetNacional)
-                        </td>
-                        <td>
-                            @Html.DisplayTextFor(m => item.CPFCNPJ)
-                        </td>
-                        <td>
-                            @Html.DisplayTextFor(m => item.RazaoSocial)
-                        </td>
-                        <td>
-                            @Html.DisplayTextFor(m => item.GetPorte)
-                        </td>
-                        <td>
-                            @Html.DisplayTextFor(m => item.GetSituacao)
-                        </td>
-                        @*<td class="text-center" style="width: 210px">
-                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary btn-xs btn-style" })&nbsp;
-                                @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-default btn-xs btn-style" })&nbsp;
-                                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-xs btn-style" })
-                            </td>*@
-
-                        @*<div class="input-group">
-                                <label for="" opt-input-return">Station Return:</label>
-                                <select id="opt-tipoempresa" class="form-control">
-                                    <option title="Station Return">MASTER_PACK01</option>
-                                    <option title="Station Return">MASTER_PACK02</option>
-                                    <option title="Station Return">MASTER_PACK03</option>
-                                </select>
-                            </div>*@
                     </tr>
                 }
-
             </table>
         }
     </div>
 
     if (@ViewBag.Erro == "")
     {
-        <p>Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount</p>        
+        <p>Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount</p>
         Html.PagedListPager(Model, page => Url.Action("Index", new { page }));
     }
 }
 
-@Html.Partial(@"~/Views/Supplier/SupplierEdir.cshtml")
+@Html.Partial(@"~/Views/Supplier/SupplierEdit.cshtml")
+@Html.Partial(@"~/Views/Supplier/SupplierAdd.cshtml")
+
 @*@Html.PagedListPager(Model, page => Url.Action("Index", new { @ViewBag.workOrder, page, @ViewBag.filter }))*@
+@*<td class="text-center" style="width: 210px">
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary btn-xs btn-style" })&nbsp;
+            @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-default btn-xs btn-style" })&nbsp;
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-xs btn-style" })
+    </td>*@
 
-    <style>
-        /**Cor quando selecionado**/
-        #suppliers tr.selecionado td {
-            background-color: #afd8ff;
-            /*#bdefed;*/
+@*<div class="input-group">
+        <label for="" opt-input-return">Station Return:</label>
+        <select id="opt-tipoempresa" class="form-control">
+            <option title="Station Return">MASTER_PACK01</option>
+            <option title="Station Return">MASTER_PACK02</option>
+            <option title="Station Return">MASTER_PACK03</option>
+        </select>
+    </div>*@
+<style>
+    /**Cor quando selecionado**/
+    #suppliers tr.selecionado td {
+        background-color: #afd8ff;
+        /*#bdefed;*/
+    }
+
+    .btn-group .button {
+        background-color: #00577d; /* Green */
+        border: none;
+        border-radius: 8px;
+        color: white;
+        padding: 15px 35px;
+        text-align: left;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 12px;
+        cursor: pointer;
+        float: left;
+    }
+
+        .btn-group .button:hover {
+            background-color: #0e3867;
         }
 
-        .btn-group .button {
-            background-color: #00577d; /* Green */
-            border: none;
-            border-radius: 8px;
-            color: white;
-            padding: 15px 35px;
-            text-align: left;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 12px;
-            cursor: pointer;
-            float: left;
+        .btn-group .button:disabled,
+        .btn-group .button[disabled] {
+            border: 1px solid #999999;
+            background-color: #cccccc;
+            color: #666666;
         }
 
-            .btn-group .button:hover {
-                background-color: #0e3867;
-            }
+    .card-body {
+        margin-left: 30px;
+    }
 
-        .card-body {
-            margin-left: 30px;
-        }
+    th, td {
+        border-bottom: 1px solid #ddd;
+    }
 
-        th, td {
-            border-bottom: 1px solid #ddd;
-        }
+    #suppliers {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
 
-        #suppliers {
-            font-family: Arial, Helvetica, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-        }
+    #customers td, #customers th {
+        border: 1px solid #ddd;
+        padding: 8px;
+        cursor: pointer; /**importante para não mostrar cursor de texto**/
+    }
 
-        #customers td, #customers th {
-            border: 1px solid #ddd;
-            padding: 8px;
-            cursor: pointer; /**importante para não mostrar cursor de texto**/
-        }
+    #suppliers tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
 
-        #suppliers tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
+    #suppliers tr:hover {
+        background-color: #ddd;
+    }
 
-        #suppliers tr:hover {
-            background-color: #ddd;
-        }
-
-        #suppliers th {
-            font-weight: bold;
-            padding-top: 12px;
-            padding-bottom: 12px;
-            text-align: left;
-            background-color: #486f43;
-            color: white;
-        }
-    </style>
+    #suppliers th {
+        font-weight: bold;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #486f43;
+        color: white;
+    }
+</style>

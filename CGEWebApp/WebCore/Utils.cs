@@ -38,5 +38,12 @@ namespace WebCore
             return null;
         }
 
+        public static decimal? FrmDec(string value)
+        {
+            if (value.IsSet())
+                return value.Replace("R$ ", "").Replace(",", "").ToDec();
+            return null;
+        }
+
     }
 }

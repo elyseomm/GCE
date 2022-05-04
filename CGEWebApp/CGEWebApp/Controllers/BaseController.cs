@@ -1,17 +1,26 @@
 ﻿using AutoMapper;
 using System.Web.Mvc;
 using WebCore.DTO;
+using WebCore.Extensions;
 
 namespace CGEWebApp.Controllers
 {
     public class BaseController : Controller
     {
         protected static readonly MapperConfiguration pfDTOMapConfig = new MapperConfiguration(c =>
-                c.CreateMap<SupplierDTO, SupplierPFDTO>());
+                c.CreateMap<SupplierDTO, SupplierPFDTO>()             
+                .IgnoreNoMap());
+
 
         protected static readonly MapperConfiguration pjDTOMapConfig = new MapperConfiguration(c =>
-                c.CreateMap<SupplierDTO, SupplierPJDTO>());
-
+                c.CreateMap<SupplierDTO, SupplierPJDTO>()
+                    .ForSourceMember(m => m.GetNacional, opt => opt.DoNotValidate())
+                    .ForSourceMember(m => m.GetSituacao, opt => opt.DoNotValidate())
+                    .ForSourceMember(m => m.GetTipoEmpresa, opt => opt.DoNotValidate())
+                    .ForSourceMember(m => m.GetTipoPessoa, opt => opt.DoNotValidate())
+                    .ForSourceMember(m => m.GetPorte, opt => opt.DoNotValidate())
+                    //.IgnoreNoMap())
+                    );
 
         protected JsonResult JsonResponse(object obj)
         {

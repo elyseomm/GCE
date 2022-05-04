@@ -1,125 +1,214 @@
-﻿<!-- Modal de Cadastro -->
-<div class="modal fade" id="frm-add" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+﻿<!-- Modal de Edicao -->
+
+<div class="modal fade" id="modal-supplier-add" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width: 90%;">
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title"><b>Fornecedor Pessoa Jurídica</b></h5>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                </div>
-                <div class="col-md-8">
-                    <div class="btn-group" style="align-content: end">
-                        <button class="button" id="btnIncluir">Incluir</button>
-                        <button class="button" id="btnAbrir">Abrir</button>
-                        <button class="button">Excluir</button>
-                        <button class="button">Ativar</button>
-                        <button class="button">Desativar</button>
-                        <button class="button">Voltar</button>
+                <div class="row">
+                    <div class="col-md-7">
+                        <h2><b id="mdl-add-title">Inclusão de Novo Fornecedor</b></h2>
+                    </div>
+
+                    <div class="col-md-5" style="margin-top: 10px">
+                        <div class="btn-group btn-block">
+                            <button class="button" id="add-btnVoltar" style="float: right;" data-dismiss="modal">Voltar</button>
+                            <button class="button" id="add-btnSalvar" style="float: right;">Salvar</button>                            
+                        </div>
                     </div>
                 </div>
+
             </div>
 
             <div class="modal-body">
-                <form id="frm-edit-pj">
+                <form id="frm-add">
 
-                    <input type="hidden" id="id-supp" name="id-supp" />
-                    
                     <div class="row">
-                        <div class="col-md-12">
-                            <label>Tipo de Pessoa:</label>
-                            <input id="tipoPessoa" name="tipoPessoa" class="form-control" />
-
-                            <label>Nacional:</label>
-                            <input id="nacional" name="nacional" class="form-control" />
-
-                            <label>Dt. Últ. Atualização:</label>
-                            <input id="dtatualizacao" name="dtatualizacao" class="form-control" />
-
-                            <label>Situação:</label>
-                            <input id="situacao" name="situacao" class="form-control" />
+                        <div class="col-md-3">
+                            <label>Tipo de Pessoa:</label>                            
+                            <select id="add-tipopessoa" name="add-tipopessoa" class="form-control">
+                                <option value="0">Pessoa Física</option>
+                                <option value="1">Pessoa Jurídica</option>
+                            </select>
                         </div>
+                        <div class="col-md-3">                            
+                            <label>Nacional:</label>
+                            <select id="add-nacional" name="add-nacional" class="form-control">
+                                <option value="1">Sim</option>
+                                <option value="0">Não</option>
+                            </select>
+                        </div>                        
                     </div>
 
-                    <div class="row">
-                        <h3 class="modal-header"><b>Degtalhes</b></h3>
-                        <div class="col-md-12">
-                            <label>CNPJ:</label>
-                            <input id="cpfcnpj" name="cpfcnpj" class="form-control" />
+                    <div id="add-detalhePF">
+                        
+                        @* CPF - NOME - EMAIL *@
+                        <div class="row">
+                            <div class="col-md-12"><h4 class="modal-header"><b>Dados</b></h4></div>
+                            <div class="col-md-2">
+                                <label>CPF:</label>
+                                <input id="add-cpf" name="add-cpf" class="form-control" />
+                            </div>
+                            <div class="col-md-5">
+                                <label>Nome:</label>
+                                <input id="add-nome" name="add-nome" class="form-control" />
+                            </div>
 
-                            <label>RazaoSocial:</label>
-                            <input id="razaosocial" name="razaosocial" class="form-control" />
+                            <div class="col-md-5">
+                                <label>E-mail Principal:</label>
+                                <input id="add-emailpf" name="add-emailpf" class="form-control" />
+                            </div>
+                        </div>
 
-                            <label>Nome Fantasia:</label>
-                            <input id="nomefantasia" name="nomefantasia" class="form-control" />
+                        @* ESTADO CIVIL - PROFISSAO - FONE1 - FONE2 - FONE3 *@
+                        <div class="row" style="margin-top: 12px">
+                            <div class="col-md-2">
+                                <label>Estado Civil:</label>                            
+                                <select id="add-estadocivil" name="add-estadocivil" class="form-control"></select>
+                            </div>
 
-                            <label>Tipo de Empresa:</label>
-                            <input id="tipoempresa" name="tipoempresa" class="form-control" />
-                            @*<div class="input-group">
-                                <label for="" opt-input-return">Station Return:</label>
-                                <select id="opt-tipoempresa" class="form-control">
-                                    <option title="Station Return">MASTER_PACK01</option>
-                                    <option title="Station Return">MASTER_PACK02</option>
-                                    <option title="Station Return">MASTER_PACK03</option>
-                                </select>
-                            </div>*@
+                            <div class="col-md-2">
+                                <label>Profissão:</label>
+                                <input id="add-profissao" name="add-profissao" class="form-control" />
+                            </div>                       
 
+                            <div class="col-md-2">
+                                <label>Fone1:</label>
+                                <input id="add-fone1pf" name="add-fone1pf" class="form-control" />
+                            </div>
+                            <div class="col-md-2">
+                                <label>Fone2:</label>
+                                <input id="add-fone2pf" name="add-fone2pf" class="form-control" />
+                            </div>
+                            <div class="col-md-2">
+                                <label>Fone3:</label>
+                                <input id="add-fone3pf" name="add-fone3pf" class="form-control" />
+                            </div>
+                        </div>
+
+                        @* TIPO EMPRESA - DT NASCIMENTO - GENERO - NACIONALIDADE *@
+                        <div class="row" style="margin-top: 12px">
+                            <div class="col-md-3">
+                                <label>Tipo de Empresa:</label>
+                                <select id="add-tipoempresapf" name="add-tipoempresapf" class="form-control"></select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Nascimento:</label>
+                                <input id="add-dtnascimento" name="add-dtnascimento" class="form-control" />
+                            </div>
+                            <div class="col-md-3">
+                                <label>Gênero:</label>
+                                <select id="add-genero" name="add-genero" class="form-control"></select>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Nascionalidade:</label>
+                                <input id="add-nacionalidade" name="add-nacionalidade" class="form-control" />
+                            </div>
+                        </div>
+                       
+                    </div>
+
+                    <div id="add-detalhePJ">
+                        @* CNPJ - RAZAO SOCIAL - NOME FANTASIA - TIPO EMPRESA *@
+                        <div class="row">
+                            <div class="col-md-12"><h4 class="modal-header"><b>Dados</b></h4></div>
+                            <div class="col-md-2">
+                                <label>CNPJ:</label>
+                                <input id="add-cnpj" name="add-cnpj" class="form-control" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>RazaoSocial:</label>
+                                <input id="add-razaosocial" name="add-razaosocial" class="form-control" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Nome Fantasia:</label>
+                                <input id="add-nomefantasia" name="add-nomefantasia" class="form-control" />
+                            </div>
+                            <div class="col-md-2">
+                                <label>Tipo de Empresa:</label>
+                                @*<input id="tipoempresa" name="tipoempresa" class="form-control" />*@
+                                <select id="add-tipoempresapj" name="add-tipoempresapj" class="form-control"></select>
+                            </div>
+                        </div>
+
+                        @* DT CONSTRUCAO - PORTE - FONE1 - FONE2 - FONE3 *@
+                        <div class="row" style="margin-top: 12px">
+                            <div class="col-md-2">
+                                <label>Data de Constituição:</label>
+                                <input id="add-dtConstituicao" name="add-dtConstituicao" class="form-control" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Porte:</label>                               
+                                <select id="add-porte" name="add-porte" class="form-control"></select>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label>Fone1:</label>
+                                <input id="add-fone1" name="add-fone1" class="form-control" />
+                            </div>
+                            <div class="col-md-2">
+                                <label>Fone2:</label>
+                                <input id="add-fone2" name="add-fone2" class="form-control" />
+                            </div>
+                            <div class="col-md-2">
+                                <label>Fone3:</label>
+                                <input id="add-fone3" name="add-fone3" class="form-control" />
+                            </div>
+                        </div>
+
+                        @* WEBSITE - EMAIL PRICIPAL *@
+                        <div class="row" style="margin-top: 12px">
+                            <div class="col-md-6">
+                                <label>Website:</label>
+                                <input id="add-website" name="add-website" class="form-control" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>E-mail Principal:</label>
+                                <input id="add-email" name="add-email" class="form-control" />
+                            </div>
+                        </div>
+
+                        @* CARACTERIZACAO CAPITAL - QTD QUOTA- VLR QUOTA - CAPITAL SOCIAL *@
+                        <div class="row" style="margin-top: 12px">
+                            <div class="col-md-4">
+                                <label>Caracterizxação do Capital:</label>
+                                @*<input id="porte" name="porte" class="form-control" />*@
+                                <select id="add-caractcapital" name="add-caractcapital" class="form-control"></select>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label>Quantidade de Quota:</label>
+                                <input id="add-qtdquota" name="add-qtdquota" class="form-control" />
+                            </div>
+
+                            <div class="col-md-2">
+                                <label>Valor de Quota:</label>
+                                <input id="add-vlrquota" name="add-vlrquota" class="form-control" />
+                            </div>
+
+                            <div class="col-md-2">
+                                <label>Capital Social:</label>
+                                <input id="add-capitalsocial" name="add-capitalsocial" class="form-control" />
+                            </div>
                         </div>
                     </div>
 
                 </form>
             </div>
-
-            <div class="modal-footer">
-                <button id="btn-save" type="button" class="btn btn-primary">Save</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            </div>
-
+            
         </div>
     </div>
 </div>
 
 <style>
 
-    .deslink-inputs div {
-        margin-bottom: 2rem;
-        width: 40%;
-    }
-
-    .deslink-inputs label {
-        color: rgba(128, 128, 128, 0.96);
+    .modal-header {
         font-weight: bold;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #486f43;
+        color: white;
     }
 
-    .deslink-inputs button {
-        color: #ff6500;
-        border: 2px solid #ff6500;
-        background: #fff;
-        font-weight: bold;
-        border-radius: 5px;
-    }
-
-        .deslink-inputs button:hover {
-            background: #ff6500;
-            border: 2px solid #ff6500;
-            color: #fff;
-            font-weight: bold;
-        }
-
-    .deslink-inputs #sn-input-list {
-        border: 1px solid rgba(128, 128, 128, 0.10);
-        border-radius: 5px;
-    }
-
-        .deslink-inputs #sn-input-list li {
-            border: 0;
-            background: rgba(128, 128, 128, 0.10);
-            margin-bottom: 1rem;
-            border-radius: 5px;
-        }
-
-            .deslink-inputs #sn-input-list li p {
-                margin: unset;
-            }
 </style>

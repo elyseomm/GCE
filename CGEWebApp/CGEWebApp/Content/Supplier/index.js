@@ -7,13 +7,10 @@ var pj = 1;
 var em_elaboracao = 0;
 var ativado = 1;
 var desativado = 2;
-
+var id = 0;
 
 $(document).ready(() => {
 	
-	var id = 0
-	var item;
-
 	$("#btnAbrir").on('click', () => {		
 		GetSupplierByID(id)
 	})
@@ -25,7 +22,14 @@ $(document).ready(() => {
 	$("#suppliers tr").click(function (event) {
 		var cell = this.getElementsByTagName("td")[0];
 		id = cell.innerText		
-		selectLine(this, false) //Selecione apenas um
+		SelectLine(this, false) //Selecione apenas uma linha
+
+		let situacao = parseInt($("#sit" + id).val())
+		EnableButons(situacao)
+	})
+	
+	$("#btnIncluir").on('click', () => {
+		GetComboLists()
 	})
 		
 	$("#btnExcluir").on('click', () => {
@@ -37,6 +41,33 @@ $(document).ready(() => {
 	})
 
 	$("#btnDesativar").on('click', () => {
+		ChangeSituationByID(id, desativado)
+	})
+	
+	$("#add-btnSalvar").on('click', () => {
+		InsertSupplier()
+	})
+
+	$("#add-tipopessoa").on('change', () => {
+
+		$('#add-detalhePF').hide()
+		$('#add-detalhePJ').hide()
+
+		let tpPessoa = $("#add-tipopessoa").val()
+		if (tpPessoa == pf) {
+
+			$('#add-detalhePF').show()
+		}
+		else {
+			$('#add-detalhePJ').show()
+        }
+	});
+
+	$("#btn-edit-Salvar").on('click', () => {
+		SaveChangedSupplier()
+	})
+
+	$("#btn-edit-Desativar").on('click', () => {
 		ChangeSituationByID(id, desativado)
 	})
 })
@@ -52,7 +83,6 @@ MaskCPFCNPJ = (field) => {
 	}
 }
 
-
 GetDate = (epoch) => {
 	if (epoch) {
 		var val = parseInt(epoch.replace('/Date(', '').replace(')/', ''))
@@ -63,7 +93,7 @@ GetDate = (epoch) => {
 	return ""
 }
 
-function selectLine(linha, multiplos) {
+SelectLine = (linha, multiplos) => {
 	if (!multiplos) {
 		var linhas = linha.parentElement.getElementsByTagName("tr")
 		for (var i = 0; i < linhas.length; i++) {
@@ -72,6 +102,21 @@ function selectLine(linha, multiplos) {
 		}
 	}
 	linha.classList.toggle("selecionado")	
+}
+
+EnableButons = (situacao) => {
+
+	$("#btnAtivar").prop("disabled", false)
+	$("#btnDesativar").prop("disabled", false)
+	$("#btn-edit-Desativar").prop("disabled", false)
+
+	if (situacao == ativado) {
+		$("#btnAtivar").prop("disabled", true)
+	}
+	else if (situacao == desativado) {
+		$("#btnDesativar").prop("disabled", true)
+		$("#btn-edit-Desativar").prop("disabled", true)
+	}
 }
 
 GetSupplierByID = (id) => {
@@ -94,18 +139,26 @@ GetSupplierByID = (id) => {
 	})
 }
 
-EditSupplier = (response) => {
-	action = 'update';
+EditSupplier = (response) => {	
 	//console.log(response)
 
 	var data = response.data
 	if (data) {
 
-		$('#id-supplier').val(data.Id)
+		//$('#id-supplier').val(data.Id)
 		$('#id-tipopessoa').val(data.TipoPessoa)
 
 		let title = 'Fornecedor ' + data.GetTipoPessoa
-		$('#mdl-title').text(title)
+		$('#mdl-edit-title').text(title)
+
+		// * HABILITA DIV's CONFORME A SITUAÇÃO ( ATIVADO / DESATIVADO )
+		let situacao = parseInt(data.Situacao)
+		$('#btn-edit-Salvar').prop("disabled", false)
+		$('#frm-edit :input').prop("disabled", false)
+		if (situacao == ativado || situacao == desativado) {
+			$('#btn-edit-Salvar').prop("disabled", true)
+			$('#frm-edit :input').prop("disabled", true)
+		}
 
 		// DEFAULT SUPPLIER INFORMATION
 		$('#tipoPessoa').val(data.GetTipoPessoa).prop("disabled", true)
@@ -150,9 +203,6 @@ EditSupplier = (response) => {
 			$('#profissao').val(data.Profissao)
 			$("#dtnascimento").val(GetDate(data.DtNascimento)).inputmask("99/99/9999")
 			$('#nacionalidade').val(data.Nacionalidade)
-			
-			
-			
 
 			// Fill option select Estado Civil
 			var lstEstCivil = response.lstEstCivil
@@ -169,15 +219,11 @@ EditSupplier = (response) => {
 		}
 		else // SUPPLIER PJ
 		{
-			
-
 			$('#nomefantasia').val(data.NomeFantasia)
 			$('#porte').val(data.GetPorte)
 			$('#website').val(data.WebSite)
 			$('#email').val(data.Email).inputmask({ alias: "email" });
 			$("#dtConstituicao").val(GetDate(data.DtConstituicao)).inputmask("99/99/9999")
-
-			
 
 			// Fill option select Porte Empresas
 			var lstPorte = response.lstPorteEmpresas
@@ -198,8 +244,7 @@ EditSupplier = (response) => {
 			//---------------------------------------------------------------
 		}
 
-
-
+		// * CARREGA A TELA EDIT MODAL 
 		$("#modal-supplier-edit").modal("show")
 	}
 }
@@ -262,26 +307,229 @@ ChangeSituationByID = (id, situacao) => {
 	}
 }
 
+GetComboLists = () => {
 
+	$('#alerts').html('')
 
-function InsertWarehouse(warehouseCode, description) {
-	var url = "/Warehouse/Insert";
-	var params = {
-		WarehouseCode: warehouseCode,
-		Description: description,
-	};
+	var url = "/Supplier/GetComboLists"
+	var params = {}
+	$.get(url, params, function (response) {
 
-	$.post(url, params, function (data) {
-		if (data.Status === false) {
-			dialogMessageDanger(data.Description)
+		if (response.Status == true) {
+
+			ShowModalInsertSupplier(response.Data)
+
 		} else {
-			dialogMessageSuccess(data.Description)
-			ListWarehouse()
-			$("#frm-add").modal("hide")
+			alertError(response.ResponseText)
 		}
 	})
 }
 
+ShowModalInsertSupplier = (response) => {
+
+	$("#add-tipopessoa").val(0)
+	$("#add-tipopessoa").change()	
+	
+	// DEFAULT SUPPLIER INFORMATION
+	$('#add-tipoPessoa').val('').prop("disabled", true)
+	$("#add-nacional").val(1)
+	
+	$('#add-cpf').val('').inputmask("999.999.999-99")	
+	$('#add-cnpj').val('').inputmask("99.999.999/9999-99")	
+
+	$('#add-nome').val('')
+	$('#add-razaosocial').val('')
+
+	$('#add-emailpf').val('').inputmask({ alias: "email" })
+	$('#add-emailpj').val('').inputmask({ alias: "email" })
+
+	$('#add-fone1pf').val('').inputmask("(99)9999[9]-9999")
+	$('#add-fone2pf').val('').inputmask("(99)9999[9]-9999")
+	$('#add-fone3pf').val('').inputmask("(99)9999[9]-9999")
+
+	$('#add-fone1pj').val('').inputmask("(99)9999[9]-9999")
+	$('#add-fone2pj').val('').inputmask("(99)9999[9]-9999")
+	$('#add-fone3pj').val('').inputmask("(99)9999[9]-9999")
+	//---------------------------------------------------------------
+
+	// Fill option select Tipo Empresas
+	var lstTpEmpresas = response.lstTpEmpresas
+
+	FillOptions($('#add-tipoempresapf'), lstTpEmpresas)
+	$('#add-tipoempresapf').val('')
+	FillOptions($('#add-tipoempresapj'), lstTpEmpresas)
+	$('#add-tipoempresapj').val('')
+	
+	// SUPPLIER PF
+	
+	$('#add-profissao').val('')
+	$("#add-dtnascimento").val('').inputmask("99/99/9999")
+	$('#add-nacionalidade').val('')
+
+	// Fill option select Estado Civil
+	var lstEstCivil = response.lstEstCivil
+	FillOptions($('#add-estadocivil'), lstEstCivil)
+	$('#add-estadocivil').val('')
+
+	// Fill option select Gênero
+	var lstGenero = response.lstGenero
+	FillOptions($('#add-genero'), lstGenero)
+	$('#add-genero').val('')
+
+	//---------------------------------------------------------------
+	
+	// SUPPLIER PJ
+	{
+		$('#add-nomefantasia').val('')
+		$('#add-porte').val('')
+		$('#add-website').val('')
+		$('#add-email').val('').inputmask({ alias: "email" });
+		$("#add-dtConstituicao").val('').inputmask("99/99/9999")
+
+		// Fill option select Porte Empresas
+		var lstPorte = response.lstPorteEmpresas
+		FillOptions($('#add-porte'), lstPorte)
+		$('#add-porte').val('')
+
+		// Fill option select Caracterizacao do Capital
+		var lstPorte = response.lstCaractCapital
+		FillOptions($('#add-caractcapital'), lstPorte)
+		$('#add-caractcapital').val('')
+
+		$('#add-qtdquota').val(0).inputmask({ alias: "integer", min: 0, max: 10000, thousandsSeparator: ' ' })
+
+		$('#add-vlrquota').val(0).inputmask({ alias: "currency", prefix: 'R$ ' })
+		$('#add-capitalsocial').val(0).inputmask({ alias: "currency", prefix: 'R$ ' })
+				
+		//---------------------------------------------------------------
+	}
+
+	// * CARREGA A TELA INSERT MODAL 
+	$("#modal-supplier-add").modal("show")
+}
+
+// * SAVE NEW 
+InsertSupplier = () => {
+
+	var url = "/Supplier/Create";
+	let resp = confirm("Deseja realmente salvar?");
+
+	if (resp == true) {
+
+		let tpPessoa = $("#add-tipopessoa").val()
+
+		var params = (tpPessoa == pf) ?
+			{
+				CPF: $('#add-cpf').val(),
+				Nome: $('#add-nome').val(),
+				Email: $('#add-emailpf').val(),
+				TipoPessoa: tpPessoa,
+				Nacional: $('#add-nacional').val(),
+				TipoEmpresa: $('#add-tipoempresapf').val(),
+
+				EstadoCivil: $('#add-estadocivil').val(),
+				Profissao: $('#add-profissao').val(),
+				Fone1: $('#add-fone1pf').val(),
+				Fone2: $('#add-fone2pf').val(),
+				Fone3: $('#add-fone3pf').val(),
+				DtNascimento: $('#add-dtnascimento').val(),
+				Genero: $('#add-genero').val(),
+				Nacionalidade: $('#add-nacionalidade').val(),
+			} :
+			{
+				CNPJ: $('#add-cnpj').val(),
+				RazaoSocial: $('#add-razaosocial').val(),
+				Email: $('#add-emailpj').val(),
+				TipoPessoa: tpPessoa,
+				Nacional: $('#add-nacional').val(),
+				TipoEmpresa: $('#add-tipoempresapj').val(),
+
+				NomeFantasia: $('#add-nomefantasia').val(),
+				DtConstituicao: $('#add-dtConstituicao').val(),
+				Porte: $('#add-porte').val(),
+				Fone1: $('#add-fone1').val(),
+				Fone2: $('#add-fone2').val(),
+				Fone3: $('#add-fone3').val(),
+				WebSite: $('#add-website').val(),
+				Email: $('#add-email').val(),
+			};
+
+		$.post(url, params, function (response) {
+			if (data.Status === false) {
+				alertError(response.ResponseText)
+			} else {
+				alertSuccess(response.ResponseText)
+				$("#modal-supplier-add").modal("hide")
+			}
+		})
+	}
+}
+
+// * SAVE EDIT
+SaveChangedSupplier = () => {
+
+	var url = "/Supplier/Edit";
+
+	let resp = confirm("Deseja realmente salvar as alterações?");
+
+	if (resp == true) {
+
+		let tpPessoa = $("#tipopessoa").val()
+
+		var params = (tpPessoa == pf) ?
+			{
+				ID: id,
+				CPF: $('#cpf').val(),
+				Nome: $('#nome').val(),
+				Email: $('#emailpf').val(),
+				TipoPessoa: tpPessoa,
+				Nacional: $('#nacional').val(),
+				TipoEmpresa: $('#tipoempresapf').val(),
+
+				EstadoCivil: $('#estadocivil').val(),
+				Profissao: $('#profissao').val(),
+				Fone1: $('#fone1pf').val(),
+				Fone2: $('#fone2pf').val(),
+				Fone3: $('#fone3pf').val(),
+				DtNascimento: $('#dtnascimento').val(),
+				Genero: $('#genero').val(),
+				Nacionalidade: $('#nacionalidade').val(),
+			} :
+			{
+				ID: id,
+				CNPJ: $('#cnpj').val(),
+				RazaoSocial: $('#razaosocial').val(),
+				Email: $('#emailpj').val(),
+				TipoPessoa: tpPessoa,
+				Nacional: $('#nacional').val(),
+				TipoEmpresa: $('#tipoempresapj').val(),
+
+				NomeFantasia: $('#nomefantasia').val(),
+				DtConstituicao: $('#dtConstituicao').val(),
+				Porte: $('#porte').val(),
+				Fone1: $('#fone1').val(),
+				Fone2: $('#fone2').val(),
+				Fone3: $('#fone3').val(),
+				WebSite: $('#website').val(),
+				Email: $('#email').val(),
+				CaracterizacaoCapital: $('#caractcapital').val(),
+				QtdQuota: $('#qtdquota').val(),
+				VlrQuota: $('#vlrquota').val(),
+				CapitalSocial: $('#capitalsocial').val(),
+			};
+
+		$.post(url, params, function (response) {
+			if (data.Status === false) {
+				alertError(response.ResponseText)
+			} else {
+				alertSuccess(response.ResponseText)
+				$("#modal-supplier-add").modal("hide")
+			}
+		})
+	}
+}
+
+// * ALARMES
 let alertSuccess = (message) => {
 	$('#alerts').html('')
 	alertSuccessMessage("alerts", message)
